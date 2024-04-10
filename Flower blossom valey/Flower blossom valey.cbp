@@ -38,6 +38,8 @@
 		<Unit filename="PlayLayer.h" />
 		<Unit filename="SushiSprite.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="texture.cpp" />
+		<Unit filename="texture.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

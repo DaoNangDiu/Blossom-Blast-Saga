@@ -26,7 +26,7 @@ private:
     float matrixLeftBottomY;
     void createMatrix(int width, int height);
     void initMatrix();
-    void createAndDropSushi(int width, int height);
+    void createAndDropElement(int width, int height);
     SDL_Point positionOfItem(int row, int col);
 };
 

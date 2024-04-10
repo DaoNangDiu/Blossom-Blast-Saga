@@ -3,13 +3,13 @@
 #include "texture.h"
 #define MATRIX_WIDTH (5)
 #define MATRIX_HEIGHT (5)
-#define SUSHI_GAP (1)
+#define ELEMENT_GAP (1)
 
-PlayLayer::PlayLayer(SDL_Renderer* newRender):
+PlayLayer::PlayLayer(SDL_Renderer* newRender)
 //    : renderer(renderer),
  //    background(nullptr),
-      width(MATRIX_WIDTH),
-      height(MATRIX_HEIGHT)
+     // width(MATRIX_WIDTH),
+     // height(MATRIX_HEIGHT)
      // matrixLeftBottomX(0),
      // matrixLeftBottomY(0)
 {
@@ -80,7 +80,7 @@ void PlayLayer::render()
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
         {
             Texture ss[k];
-            ss[k].loadFromFile(sushiNormal[matrix[i][j]]);
+            ss[k].loadFromFile(elementNormal[matrix[i][j]]);
             ss[k].render(32*i+10,32*j+10,32,32,NULL);
     // Update screen
     SDL_RenderPresent(renderer);
@@ -94,12 +94,12 @@ void PlayLayer::initMatrix()
     {
         for (int col = 0; col < width; col++)
         {
-            createAndDropSushi(row, col);
+            createAndDropElement(row, col);
         }
     }
 }
 
-void PlayLayer::createAndDropSushi(int width, int height)
+void PlayLayer::createAndDropElement(int width, int height)
 {
 
     // Create and drop sushi
