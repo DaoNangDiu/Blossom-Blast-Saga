@@ -3,8 +3,9 @@
 #define TOTAL_ELEMENT (5)
 
 #include "SDL.h"
+#include "string"
 
-static const char* elementNormal[TOTAL_ELEMENT] =
+static const std::string elementNormal[TOTAL_ELEMENT] =
 {
     "flower.png",
     "rock.png",

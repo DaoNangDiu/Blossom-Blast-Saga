@@ -2,7 +2,7 @@
 #include "Elements.h"
 #include "texture.h"
 #include <bits/stdc++.h>
-#define MATRIX_WIDTH (5)
+#define MATRIX_WIDTH (10)
 #define MATRIX_HEIGHT (5)
 #define ELEMENT_GAP (1)
 
@@ -43,6 +43,13 @@ bool PlayLayer::init()
     std::cout << MATRIX_WIDTH << " " << MATRIX_HEIGHT << std::endl;
     createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
 
+     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
+        for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
+    {
+        matrix[i][j] = rand()%5;
+    }
+
+
     return true;
 }
 
@@ -68,23 +75,20 @@ void PlayLayer::render()
             SDL_RenderCopy(renderer, sushi.getTexture(), NULL, &dstRect);
         }
     }*/
-    for ( int i = 0 ; i < width ; i++ )
-        for ( int j = 0 ; j < height ; j++ )
-    {
-        matrix[i][j] = rand()%5;
-    }
+
     Texture bg;
-    bg.loadFromFile("background.png");
+    bg.loadFromFile("bg.png");
     bg.render(0,0,1600,900,NULL);
-    int k = 0;
+//    int k = 0;
     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
         {
             Texture ss;
+            //std::cout << elementNormal[matrix[i][j]] << std::endl;
             ss.loadFromFile(elementNormal[matrix[i][j]]);
-            ss.render(32*i+10,32*j+10,32,32,NULL);
+            ss.render(105*i+220+7*i,105*j+170+7*j,100,100,NULL);
         }
-    // Update screen
+//    // Update screen
     SDL_RenderPresent(renderer);
 }
 
