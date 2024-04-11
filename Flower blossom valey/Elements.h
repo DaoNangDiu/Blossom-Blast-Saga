@@ -6,11 +6,11 @@
 
 static const char* elementNormal[TOTAL_ELEMENT] =
 {
-    "flower.bmp",
-    "rock.bmp",
-    "water.bmp",
-    "fire.bmp",
-    "tree.bmp"
+    "flower.png",
+    "rock.png",
+    "water.png",
+    "fire.png",
+    "tree.png"
 };
 
 #endif /* defined(__SUSHI_SPRITE_H__) */

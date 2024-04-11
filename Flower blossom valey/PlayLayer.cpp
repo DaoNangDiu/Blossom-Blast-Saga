@@ -1,6 +1,7 @@
 #include "PlayLayer.h"
 #include "Elements.h"
 #include "texture.h"
+#include <bits/stdc++.h>
 #define MATRIX_WIDTH (5)
 #define MATRIX_HEIGHT (5)
 #define ELEMENT_GAP (1)
@@ -39,7 +40,8 @@ bool PlayLayer::init()
     SDL_FreeSurface(surface);*/
 
     // Initialize matrix
-    initMatrix();
+    std::cout << MATRIX_WIDTH << " " << MATRIX_HEIGHT << std::endl;
+    createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
 
     return true;
 }
@@ -74,35 +76,24 @@ void PlayLayer::render()
     Texture bg;
     bg.loadFromFile("background.png");
     bg.render(0,0,1600,900,NULL);
-    Texture ss[MATRIX_WIDTH*MATRIX_HEIGHT];
     int k = 0;
     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
         {
-            Texture ss[k];
-            ss[k].loadFromFile(elementNormal[matrix[i][j]]);
-            ss[k].render(32*i+10,32*j+10,32,32,NULL);
+            Texture ss;
+            ss.loadFromFile(elementNormal[matrix[i][j]]);
+            ss.render(32*i+10,32*j+10,32,32,NULL);
+        }
     // Update screen
     SDL_RenderPresent(renderer);
 }
-}
 
-void PlayLayer::initMatrix()
-{
-    // Initialize matrix
-    for (int row = 0; row < height; row++)
-    {
-        for (int col = 0; col < width; col++)
-        {
-            createAndDropElement(row, col);
-        }
-    }
-}
+
 
 void PlayLayer::createAndDropElement(int width, int height)
 {
-
     // Create and drop sushi
+
 
 }
 

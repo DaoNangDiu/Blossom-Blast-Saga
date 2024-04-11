@@ -15,7 +15,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // Create and initialize the window
-    SDL_Window* window = SDL_CreateWindow("Sushi Crush", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1600, 900, 0);
+    SDL_Window* window = SDL_CreateWindow("Blossom Blast Saga", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1600, 900, 0);
     if (!window) {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return false;

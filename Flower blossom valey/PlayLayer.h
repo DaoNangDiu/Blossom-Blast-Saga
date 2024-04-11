@@ -19,13 +19,13 @@ public:
 
 private:
     Texture* background;
-    int** matrix;
+    int **matrix;
     int width;
     int height;
     float matrixLeftBottomX;
     float matrixLeftBottomY;
     void createMatrix(int width, int height);
-    void initMatrix();
+    bool initMatrix();
     void createAndDropElement(int width, int height);
     SDL_Point positionOfItem(int row, int col);
 };
