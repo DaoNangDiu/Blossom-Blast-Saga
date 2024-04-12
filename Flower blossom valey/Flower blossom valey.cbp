@@ -34,6 +34,8 @@
 		<Unit filename="AppDelegate.cpp" />
 		<Unit filename="AppDelegate.h" />
 		<Unit filename="Elements.h" />
+		<Unit filename="Mouse.cpp" />
+		<Unit filename="Mouse.h" />
 		<Unit filename="PlayLayer.cpp" />
 		<Unit filename="PlayLayer.h" />
 		<Unit filename="SushiSprite.cpp" />

@@ -5,7 +5,6 @@
 #include "Elements.h"
 #include "texture.h"
 #include<bits/stdc++.h>
-
 class PlayLayer
 {
 public:
@@ -16,7 +15,7 @@ public:
     void render();
     static SDL_Renderer* renderer;
     static SDL_Event event;
-
+    //Buttons objects
 private:
     Texture* background;
     int **matrix;
