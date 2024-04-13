@@ -2,7 +2,6 @@
 #include "PlayLayer.h"
 #include "Elements.h"
 #include "texture.h"
-#include "Mouse.h"
 AppDelegate::AppDelegate()
 {
     srand(time(nullptr)); // Initialize random seed
@@ -19,7 +18,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     }
 
     // Create and initialize the window
-    SDL_Window* window = SDL_CreateWindow("Blossom Blast Saga", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1600, 900, 1);
+    SDL_Window* window = SDL_CreateWindow("Blossom Blast Saga", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1600,900, SDL_WINDOW_SHOWN);
     if (!window)
     {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -47,33 +46,27 @@ bool AppDelegate::applicationDidFinishLaunching()
     }
 
     // Run event loop
-    bool running = true;
-    SDL_Event event;
-    while (running)
-    {
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-            {
-                running = false;
-            }
-            //Handle button events
-            LButton gButtons[ TOTAL_BUTTONS ];
+//    bool running = true;
+//    SDL_Event event;
+//    while (running)
+//    {
+//        while (SDL_PollEvent(&event))
+//        {
+//            if (event.type == SDL_QUIT)
+//            {
+//                running = false;
+//            }
+//            //Handle button events
+//
+//        }
 
-            for( int i = 0; i < TOTAL_BUTTONS; ++i )
-            {
-                gButtons[ i ].handleEvent( &event );
-            }
-        }
+    // Update and render PlayLayer
+ //   playLayer.draw();
+    playLayer.exec();
 
-        // Update and render PlayLayer
-        playLayer.update();
-        playLayer.render();
-
-        // Delay to control frame rate
-        SDL_Delay(16); // 60 FPS
-    }
-
+    // Delay to control frame rate
+   // SDL_Delay(2); // 60 FPS
+//    }
     // Clean up
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

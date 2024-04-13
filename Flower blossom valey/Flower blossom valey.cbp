@@ -38,7 +38,6 @@
 		<Unit filename="Mouse.h" />
 		<Unit filename="PlayLayer.cpp" />
 		<Unit filename="PlayLayer.h" />
-		<Unit filename="SushiSprite.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />
