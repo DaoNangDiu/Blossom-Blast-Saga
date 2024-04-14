@@ -38,6 +38,10 @@ class PlayLayer
         bool initMatrix();
         void findAndRemoveLines();
         bool createAndDropElement();
+        void getColChain(int i, int j, vector<pair<int,int>> &chainList );
+        void getRowChain(int i, int j, vector<pair<int,int>> &chainList );
+
+
        // SDL_Point positionOfItem(int row, int col);
 };
 

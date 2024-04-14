@@ -32,8 +32,10 @@ bool PlayLayer::init()
 
     rect_table.resize(6, vector<SDL_Rect>(11));
 
-    for(int i = 0; i < 5; i ++){
-        for(int j = 0; j < 10; j ++){
+    for(int i = 0; i < 5; i ++)
+    {
+        for(int j = 0; j < 10; j ++)
+        {
             SDL_Rect tmp = {x, y, 112, 112};
             rect_table[i][j] = tmp;
             x += 112;
@@ -106,12 +108,12 @@ bool PlayLayer::tick()
 }
 //void PlayLayer::update()
 //{
-    // Update game logic here
+// Update game logic here
 //}
 
 //void PlayLayer::render()
 //{
-    // Clear screen
+// Clear screen
 //    SDL_RenderClear(renderer);
 
 //    Texture bg;
@@ -132,7 +134,7 @@ bool PlayLayer::tick()
 //        ss =
 //    }
 // Update screen
- //   SDL_RenderPresent(renderer);
+//   SDL_RenderPresent(renderer);
 //}
 
 
@@ -163,7 +165,7 @@ bool PlayLayer::createAndDropElement()
 
 void PlayLayer::draw()
 {
- //   SDL_RenderClear(renderer);
+//   SDL_RenderClear(renderer);
     Texture bg;
     bg.loadFromFile("bg.png");
     bg.render(0,0,1600, 900,NULL);
@@ -173,102 +175,93 @@ void PlayLayer::draw()
             if (matrix[x][y] >= 0)
             {
                 if (x != selectedX || y != selectedY || SDL_GetTicks() % 250 > 125)
-                {Texture ss;
-                std::cout << elementNormal[matrix[x][y]] << " " << x << " " << y << " " << Esize*x+220+7*x << " " <<Esize*y+170+7*y <<   std::endl;
-                ss.loadFromFile(elementNormal[matrix[x][y]]);
-                ss.render(Esize*x+220+7*x,Esize*y+170+7*y,100,100,NULL);}
+                {
+                    Texture ss;
+                    std::cout << elementNormal[matrix[x][y]] << " " << x << " " << y << " " << Esize*x+220+7*x << " " <<Esize*y+170+7*y <<   std::endl;
+                    ss.loadFromFile(elementNormal[matrix[x][y]]);
+                    ss.render(Esize*x+220+7*x,Esize*y+170+7*y,100,100,NULL);
+                }
             }
         }
-  //  SDL_RenderPresent(renderer);
+    //  SDL_RenderPresent(renderer);
 }
 
 void PlayLayer::findAndRemoveLines()
 {
-    int maxLineH = 1;
-    int maxXH = 0;
-    int maxYH = 0;
-    for (int y = 0; y < MATRIX_HEIGHT; ++y)
-    {
-        int currentColor = matrix[0][y];
-        int line = 1;
-        for (int x = 1; x < MATRIX_WIDTH; ++x)
+    for ( int i=0 ; i < MATRIX_WIDTH ; i++ )
+        for ( int j=0 ; j < MATRIX_HEIGHT ; j++ )
         {
-            if (currentColor == matrix[x][y])
+            if ( matrix[i][j] < 0 ) continue;
+            vector<pair<int,int>> colChainList;
+            vector<pair<int,int>> rowChainList;
+            getColChain(i,j,colChainList);
+            getRowChain(i,j,rowChainList);
+            int ColSize = colChainList.size();
+            int RowSize = rowChainList.size();
+            if ( ColSize >= 3 )
             {
-                ++line;
-            }
-            else
-            {
-                if (maxLineH < line && currentColor != -1)
+                for (auto index : colChainList )
                 {
-                    maxLineH = line;
-                    maxXH = x - line;
-                    maxYH = y;
+                    matrix[index.first][index.second] = -1;
                 }
-                line = 1;
             }
-            currentColor = matrix[x][y];
-        }
-        if (maxLineH < line && currentColor != -1)
-        {
-            maxLineH = line;
-            maxXH = MATRIX_WIDTH - line;
-            maxYH = y;
-        }
-    }
-
-    int maxLineV = 1;
-    int maxXV = 0;
-    int maxYV = 0;
-    for (int x = 0; x < MATRIX_WIDTH; ++x)
-    {
-        int currentColor = matrix[x][0];
-        int line = 1;
-        for (int y = 1; y < MATRIX_HEIGHT; ++y)
-        {
-            if (currentColor == matrix[x][y])
+            else break;
+            if ( RowSize >= 3 )
             {
-                ++line;
-            }
-            else
-            {
-                if (maxLineV < line && currentColor != -1)
+                for (auto index : rowChainList )
                 {
-                    maxLineV = line;
-                    maxXV = x;
-                    maxYV = y - line;
+                    matrix[index.first][index.second] = -1;
                 }
-                line = 1;
             }
-            currentColor = matrix[x][y];
+            else break;
         }
-        if (maxLineV < line && currentColor != -1)
-        {
-            maxLineV = line;
-            maxXV = x;
-            maxYV = MATRIX_HEIGHT - line;
-        }
-    }
-    if (maxLineH >= maxLineV)
+}
+void PlayLayer::getColChain(int i, int j, vector<pair<int,int>> &chainList )
+{
+    chainList.push_back(make_pair(i,j));
+    int neighCol = j-1;
+    while ( neighCol >= 0 )
     {
-        if (maxLineH >= 3)
+        if ( matrix[i][neighCol] == matrix[i][j] )
         {
-            for (int x = maxXH; x < maxXH + maxLineH; ++x)
-            {
-                matrix[x][maxYH] = -1;
-            }
+            chainList.push_back(make_pair(i,neighCol));
+            neighCol--;
         }
+        else break;
     }
-    else
+    neighCol = j+1;
+    while ( neighCol < MATRIX_HEIGHT )
     {
-        if (maxLineV >= 3)
+        if ( matrix[i][neighCol] == matrix[i][j] )
         {
-            for (int y = maxYV; y < maxYV + maxLineV; ++y)
-            {
-                matrix[maxXV][y] = -1;
-            }
+            chainList.push_back(make_pair(i,neighCol));
+            neighCol++;
         }
+        else break;
     }
 }
 
-
+void PlayLayer::getRowChain(int i, int j, vector<pair<int,int>> &chainList )
+{
+    chainList.push_back(make_pair(i,j));
+    int neighRow = i-1;
+    while ( neighRow >= 0 )
+    {
+        if ( matrix[neighRow][j] == matrix[i][j] )
+        {
+            chainList.push_back(make_pair(neighRow,j));
+            neighRow--;
+        }
+        else break;
+    }
+    neighRow = i+1;
+    while ( neighRow < MATRIX_WIDTH )
+    {
+        if ( matrix[neighRow][j] == matrix[i][j] )
+        {
+            chainList.push_back(make_pair(neighRow,j));
+            neighRow++;
+        }
+        else break;
+    }
+}
