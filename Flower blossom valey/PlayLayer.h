@@ -5,7 +5,6 @@
 #include "Elements.h"
 #include "texture.h"
 #include<bits/stdc++.h>
-
 using namespace std;
 
 extern vector<vector<SDL_Rect>> rect_table;
@@ -36,11 +35,8 @@ class PlayLayer
         unsigned ticks = 0;
         void createMatrix(int width, int height);
         bool initMatrix();
-        void findAndRemoveLines();
+//        void findAndRemoveLines();
         bool createAndDropElement();
-        void getColChain(int i, int j, vector<pair<int,int>> &chainList );
-        void getRowChain(int i, int j, vector<pair<int,int>> &chainList );
-
 
        // SDL_Point positionOfItem(int row, int col);
 };
