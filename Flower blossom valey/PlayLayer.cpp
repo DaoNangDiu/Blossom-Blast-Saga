@@ -172,10 +172,11 @@ void PlayLayer::draw()
         {
             if (matrix[x][y] >= 0)
             {
-                Texture ss;
+                if (x != selectedX || y != selectedY || SDL_GetTicks() % 250 > 125)
+                {Texture ss;
                 std::cout << elementNormal[matrix[x][y]] << " " << x << " " << y << " " << Esize*x+220+7*x << " " <<Esize*y+170+7*y <<   std::endl;
                 ss.loadFromFile(elementNormal[matrix[x][y]]);
-                ss.render(Esize*x+220+7*x,Esize*y+170+7*y,100,100,NULL);
+                ss.render(Esize*x+220+7*x,Esize*y+170+7*y,100,100,NULL);}
             }
         }
   //  SDL_RenderPresent(renderer);
