@@ -34,11 +34,14 @@
 		<Unit filename="AppDelegate.cpp" />
 		<Unit filename="AppDelegate.h" />
 		<Unit filename="Elements.h" />
+		<Unit filename="Function.h" />
 		<Unit filename="Mouse.cpp" />
 		<Unit filename="Mouse.h" />
 		<Unit filename="PlayLayer.cpp" />
 		<Unit filename="PlayLayer.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />
 		<Extensions>
