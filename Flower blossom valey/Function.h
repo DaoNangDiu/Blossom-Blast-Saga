@@ -224,5 +224,30 @@ void beeplain( int** matrix, int i, int j, int selectedX, int selectedY )
     }
 }
 
+void stripes2 ( int** matrix, int i, int j , int selectedX, int selecttedY )
+{
+    if ( matrix[i][j] >= 5 && matrix[i][j] < 10 && matrix[selectedX][selecttedY] >= 5 && matrix[selectedX][selecttedY] < 10 )
+    {
+        for ( int x = -2 ; x <= 1 ; x++)
+            for ( int y = -2; y <= 1 ; y++ )
+        {
+            matrix[i+x][i+y] = -1;
+            matrix[selectedX+x][selecttedY+y] = -1;
+        }
+    }
+}
 
+void bee2 (int** matrix, int i, int j ,int selectedX, int selectedY)
+{
+    if ( matrix[i][j] == 10 && matrix[selectedX][selectedY] == 10 )
+    {
+        matrix[i][j]=-1;
+        matrix[selectedX][selectedY]=-1;
+        for ( int x =0  ; x < MATRIX_WIDTH ; x++)
+            for ( int y = 0 ; y < MATRIX_HEIGHT ; y++ )
+        {
+            matrix[x][y] = -1;
+        }
+    }
+}
 #endif // FUNCTION_H

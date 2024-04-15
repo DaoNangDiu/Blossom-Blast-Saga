@@ -69,12 +69,14 @@ int PlayLayer::exec()
                         ((abs(x - selectedX) == 1 && y == selectedY) || (abs(y - selectedY) == 1 && x == selectedX)))
                 {
                     std::swap(matrix[x][y], matrix[selectedX][selectedY]);
+                    bee2(matrix, x, y, selectedX,selectedY);
                     beeplain(matrix,x,y,selectedX,selectedY);
                     {
                         bee(matrix,x,y);
                         stripes(matrix,x,y);
                         plain(matrix,x,y);
                     }
+                    stripes2(matrix,x,y,selectedX,selectedY);
                     if ( matrix[selectedX][selectedY] < 5 )
                     {
                         bee(matrix,selectedX,selectedY);
