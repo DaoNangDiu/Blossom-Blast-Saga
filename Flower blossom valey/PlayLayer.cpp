@@ -25,7 +25,7 @@ void PlayLayer::createMatrix(int width, int height)
 bool PlayLayer::init()
 {
     // Initialize matrix
-    std::cout << MATRIX_WIDTH << " " << MATRIX_HEIGHT << std::endl;
+    //std::cout << MATRIX_WIDTH << " " << MATRIX_HEIGHT << std::endl;
     createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
 
     int x = 220, y = 170;
@@ -105,7 +105,7 @@ int PlayLayer::exec()
         oldTick = currentTick;
 //        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x06);
         SDL_RenderClear(renderer);
-        draw();
+        draw2();
         SDL_RenderPresent(renderer);
     }
     return 0;
@@ -152,7 +152,7 @@ bool PlayLayer::createAndDropElement()
 
 }
 
-void PlayLayer::draw()
+void PlayLayer::draw2()
 {
 //   SDL_RenderClear(renderer);
     Texture bg;
@@ -173,3 +173,12 @@ void PlayLayer::draw()
         }
 }
 
+void PlayLayer::draw1()
+{
+    SDL_RenderClear(renderer);
+    Texture background;
+    background.loadFromFile("background.png");
+    background.render(0,0,1600, 900,NULL);
+    SDL_RenderPresent(renderer);
+
+}

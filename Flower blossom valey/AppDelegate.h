@@ -1,10 +1,11 @@
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
-
-#include "SDL.h"
-#include <vector>
-#include <cstdlib> // For rand()
-#include <ctime>   // For srand()
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include "game.h"
+#include "pauseMenu.h"
+#include "titleScreen.h"
+#include <iostream>
 
 /**
 @brief    The SDL Application.
@@ -31,6 +32,20 @@ public:
     @brief  The function be called when the application enter foreground
     */
     virtual void applicationWillEnterForeground();
+private:
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    Game game;
+    pauseMenu pause;
+    titleScreen title;
+
+    int FPS;
+    int cnt;
+    bool gameRunning;
 };
+
+
+
+
 
 #endif // _APP_DELEGATE_H_
