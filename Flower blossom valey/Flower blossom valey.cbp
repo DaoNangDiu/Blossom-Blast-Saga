@@ -42,8 +42,6 @@
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="menu.cpp" />
-		<Unit filename="menu.h" />
 		<Unit filename="pauseMenu.cpp" />
 		<Unit filename="pauseMenu.h" />
 		<Unit filename="player.cpp" />

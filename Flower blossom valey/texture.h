@@ -4,7 +4,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-//#include <SDL_ttf.h>
+#include <SDL_ttf.h>
 
 class Texture
 {
@@ -19,9 +19,9 @@ public:
 	bool loadFromFile(std::string path);
 
     // Creates image from font string
-	//bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font *textFont);
+	bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font *textFont);
 
-	//bool loadString(std::string path, std::string str, TTF_Font *textFont);
+	bool loadString(std::string path, std::string str, TTF_Font *textFont);
 
     // Deallocates texture
 	void free();

@@ -2,9 +2,6 @@
 #define  _APP_DELEGATE_H_
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include "game.h"
-#include "pauseMenu.h"
-#include "titleScreen.h"
 #include <iostream>
 
 /**
@@ -32,16 +29,7 @@ public:
     @brief  The function be called when the application enter foreground
     */
     virtual void applicationWillEnterForeground();
-private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    Game game;
-    pauseMenu pause;
-    titleScreen title;
 
-    int FPS;
-    int cnt;
-    bool gameRunning;
 };
 
 

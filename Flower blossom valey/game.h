@@ -12,5 +12,5 @@ struct Game {
 
 	void handleEvents();
 	void update();
-	void render( SDL_Renderer *renderer);
+	void render();
 };

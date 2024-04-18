@@ -1,24 +1,26 @@
-#include <SDL.h>
-#include <SDL_image.h>
-class LButton
+#ifndef BUTTON_H_
+#define BUTTON_H_
+
+#include "CommonFunc.h"
+#include "texture.h"
+
+class Button
 {
-	public:
-		//Initializes internal variables
-		LButton();
+public:
+	ButtonSprite currentSprite;
 
-		//Sets top left position
-		void setPosition( int x, int y );
+	Button();
 
-		//Handles mouse event
-		void handleEvent( SDL_Event* e );
+	Button(int x, int y);
 
-		//Shows button sprite
-		void render(SDL_Renderer* screen, SDL_Texture* Tex);
+	void SetPosition(int x, int y);
 
-	private:
-		//Top left position
-		SDL_Point mPosition;
+	bool IsInside(SDL_Event *e, int size);
 
-		//Currently used global sprite
-//		LButtonSprite mCurrentSprite;
+	void Render(SDL_Rect* currentClip, SDL_Renderer* gRenderer, BaseObject gButtonTexture);
+
+private:
+	SDL_Point position;
 };
+
+#endif // !BUTTON_H_

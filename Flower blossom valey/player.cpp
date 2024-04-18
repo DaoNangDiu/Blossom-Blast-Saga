@@ -23,8 +23,6 @@ void Player::update()
 void Player::render( SDL_Renderer *renderer)
 {
 SDL_SetRenderDrawColor(renderer,150,0,0,255);
-Texture bg;
-    bg.render(0,0,1600,900,NULL);
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
 };

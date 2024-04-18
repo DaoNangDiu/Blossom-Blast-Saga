@@ -1,6 +1,5 @@
 #include "texture.h"
 #include "PlayLayer.h"
-
 SDL_Renderer *PlayLayer::renderer;
 SDL_Event PlayLayer::event;
 
@@ -59,7 +58,7 @@ bool Texture::loadFromFile(std::string path)
 	return texture != NULL;
 }
 
-/*bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font *textFont)
+bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font *textFont)
 {
 	// Get rid of preexisting texture
 	free();
@@ -117,7 +116,7 @@ bool Texture::loadString(std::string path, std::string str, TTF_Font *textFont)
 
 	return success;
 }
-*/
+
 void Texture::free()
 {
 	// Free texture if it exists
