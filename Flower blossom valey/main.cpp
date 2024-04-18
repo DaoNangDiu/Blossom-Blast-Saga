@@ -64,7 +64,7 @@ bool InitData()
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-    g_window = SDL_CreateWindow("Blast Blossom Saga",
+    g_window = SDL_CreateWindow("Puzzle! Monster",
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -101,16 +101,16 @@ bool InitData()
     return success;
 }
 
-bool LoadBackground()
-{
-    bool success = true;
-
-    bool ret = g_background.LoadImg("img//background.jpg", g_screen);
-    if (ret == false)
-        return false;
-
-    return true;
-}
+//bool LoadBackground()
+//{
+//    bool success = true;
+//
+//    bool ret = g_background.LoadImg("img//background.jpg", g_screen);
+//    if (ret == false)
+//        return false;
+//
+//    return true;
+//}
 
 void close()
 {
@@ -164,8 +164,8 @@ int main(int argc, char* argv[])
     if (InitData() == false)
         return -1;
 
-    if (LoadBackground() == false)
-        return -1;
+//    if (LoadBackground() == false)
+//        return -1;
 
     if (LoadMedia() == false)
         return -1;
@@ -241,12 +241,12 @@ int main(int argc, char* argv[])
 
                 }
 
-//                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-//                SDL_RenderClear(g_screen);
-//
-//                g_background.Render(0,0,g_screen, NULL);
-//
-//                SDL_RenderPresent(g_screen);
+                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+                SDL_RenderClear(g_screen);
+
+                g_background.Render(0,0,g_screen, NULL);
+
+                SDL_RenderPresent(g_screen);
                 PlayLayer playLayer(g_screen);
                 if (!playLayer.init())
                 {
@@ -385,9 +385,9 @@ bool LoadMedia()
             {
                 for (int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    gBackButton[i].x = 100 * i;
+                    gBackButton[i].x = 150 * i;
                     gBackButton[i].y = 0;
-                    gBackButton[i].w = 100;
+                    gBackButton[i].w = 150;
                     gBackButton[i].h = 78;
                 }
             }

@@ -31,27 +31,21 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="AppDelegate.cpp" />
-		<Unit filename="AppDelegate.h" />
+		<Unit filename="BaseObject.cpp" />
+		<Unit filename="BaseObject.h" />
+		<Unit filename="Button.cpp" />
+		<Unit filename="Button.h" />
+		<Unit filename="CommonFunc.cpp" />
+		<Unit filename="CommonFunc.h" />
 		<Unit filename="Elements.h" />
 		<Unit filename="Function.h" />
-		<Unit filename="Mouse.cpp" />
-		<Unit filename="Mouse.h" />
+		<Unit filename="GameUtils.cpp" />
+		<Unit filename="GameUtils.h" />
 		<Unit filename="PlayLayer.cpp" />
 		<Unit filename="PlayLayer.h" />
-		<Unit filename="game.cpp" />
-		<Unit filename="game.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="pauseMenu.cpp" />
-		<Unit filename="pauseMenu.h" />
-		<Unit filename="player.cpp" />
-		<Unit filename="player.h" />
-		<Unit filename="textBox.cpp" />
-		<Unit filename="textBox.h" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />
-		<Unit filename="titleScreen.cpp" />
-		<Unit filename="titleScreen.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
