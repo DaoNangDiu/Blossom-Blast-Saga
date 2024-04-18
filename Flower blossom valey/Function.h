@@ -5,10 +5,11 @@
 #define MATRIX_HEIGHT (5)
 using namespace std;
 
-const int target = 500, moves = 20 ;
-
+const int target = 1000, moves = 20 ;
+int score;
 int rstart = 0, cstart = 0;
 int cropped = 0 ;
+char element;
 
 char elementCheck( int i )
 {
@@ -16,31 +17,60 @@ char elementCheck( int i )
     {
     case 0:
     case 5:
-        return 'fl';
+        return 'h';
         break;
     case 1:
     case 6:
-        return 'tr';
+        return 'c';
         break;
     case 2:
     case 7:
-        return 'fi';
+        return 'l';
         break;
     case 3:
     case 8:
-        return 'wa';
+        return 'n';
         break;
     case 4:
     case 9:
-        return 'tr';
+        return 'd';
         break;
     case 10:
-        return 'be';
+        return 'o';
         break;
     default:
         break;
     }
 }
+
+void scorer ( char element, int num )
+{
+    switch(element)
+    {
+    case 'h':
+    case 'c':
+        {
+            score += (30*num);
+            break;
+        }
+    case 'n':
+    case 'l':
+        {
+            score += (40*num);
+            break;
+        }
+    case 'r':
+        {
+            score+= (50*num);
+            break;
+        }
+    default:
+        {
+            break;
+        }
+    }
+}
+
 void getColChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
 {
     chainList.push_back(make_pair(i,j));
@@ -91,7 +121,7 @@ void getRowChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
     }
 }
 
-void plain ( int** matrix,int i, int j)
+void plain ( int** matrix,int i, int j, int& score)
 {
     vector<pair<int,int>> colChainList;
     vector<pair<int,int>> rowChainList;
@@ -101,6 +131,7 @@ void plain ( int** matrix,int i, int j)
     int RowSize = rowChainList.size();
     if ( RowSize >= 3 )
     {
+        element = elementCheck(matrix[i][j]);
         for (auto index : rowChainList )
         {
             if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
@@ -116,7 +147,10 @@ void plain ( int** matrix,int i, int j)
                 matrix[index.first][index.second] = -1;
             }
             else
-                matrix[index.first][index.second] = -1;
+               {
+                   matrix[index.first][index.second] = -1;
+                   scorer(element,1);
+               }
         }
     }
     if ( ColSize >= 3 )
@@ -136,7 +170,10 @@ void plain ( int** matrix,int i, int j)
                 matrix[index.first][index.second] = -1;
             }
             else
-                matrix[index.first][index.second] = -1;
+                {
+                    matrix[index.first][index.second] = -1;
+                    scorer(element,1);
+                }
         }
     }
 }
@@ -250,4 +287,6 @@ void bee2 (int** matrix, int i, int j ,int selectedX, int selectedY)
         }
     }
 }
+
+
 #endif // FUNCTION_H

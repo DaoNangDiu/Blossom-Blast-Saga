@@ -3,7 +3,8 @@
 #include "texture.h"
 #include <bits/stdc++.h>
 #include "Function.h"
-
+#include "GameUtils.h"
+#include <bits/stdc++.h>
 const int Esize = 105;
 
 vector<vector<SDL_Rect>> rect_table;
@@ -71,17 +72,16 @@ int PlayLayer::exec()
                     std::swap(matrix[x][y], matrix[selectedX][selectedY]);
                     bee2(matrix, x, y, selectedX,selectedY);
                     beeplain(matrix,x,y,selectedX,selectedY);
-                    {
-                        bee(matrix,x,y);
-                        stripes(matrix,x,y);
-                        plain(matrix,x,y);
-                    }
+                    bee(matrix,x,y);
+                    stripes(matrix,x,y);
+                    plain(matrix,x,y,score);
+                    cout << score << " ";
                     stripes2(matrix,x,y,selectedX,selectedY);
                     if ( matrix[selectedX][selectedY] < 5 )
                     {
                         bee(matrix,selectedX,selectedY);
                         stripes(matrix,selectedX,selectedY);
-                        plain(matrix,selectedX,selectedY);
+                        plain(matrix,selectedX,selectedY,score);
                     }
                     selectedX = -1;
                     selectedY = -1;
@@ -103,7 +103,6 @@ int PlayLayer::exec()
             if (!tick())
                 return 1;
         oldTick = currentTick;
-//        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x06);
         SDL_RenderClear(renderer);
         draw2();
         SDL_RenderPresent(renderer);
@@ -122,7 +121,7 @@ bool PlayLayer::tick()
         {
             bee(matrix,i,j);
             stripes(matrix,i,j);
-            plain(matrix,i,j);
+            plain(matrix,i,j,score);
         }
     return true;
 }
@@ -161,6 +160,14 @@ void PlayLayer::draw2()
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
         {
+            Texture ss;
+            ss.loadFromFile("o1.png");
+            ss.render((Esize)*(x)-6+220+7*x,(Esize)*(y)-6+170+7*y,112,112,NULL);
+        }
+
+    for (int x = 0; x < MATRIX_WIDTH; ++x)
+        for (int y = 0; y < MATRIX_HEIGHT; ++y)
+        {
             if (matrix[x][y] >= 0)
             {
                 if (x != selectedX || y != selectedY || SDL_GetTicks() % 250 > 125)
@@ -171,14 +178,14 @@ void PlayLayer::draw2()
                 }
             }
         }
+        TTF_Font *font = NULL;
+        font = TTF_OpenFont("font/pixel_font.ttf",32);
+        Texture text;
+        string t = std::to_string(score)  ;
+        text.loadString("font/pixel_font.ttf",t,font);
+        SDL_Color textColor = {255, 255, 255}; // Màu trắng
+        text.setColor(textColor.r, textColor.g, textColor.b);
+        text.render(100, 100,200,200,NULL);
+        cout << score << " " ;
 }
 
-void PlayLayer::draw1()
-{
-    SDL_RenderClear(renderer);
-    Texture background;
-    background.loadFromFile("background.png");
-    background.render(0,0,1600, 900,NULL);
-    SDL_RenderPresent(renderer);
-
-}

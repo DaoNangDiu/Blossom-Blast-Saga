@@ -4,9 +4,6 @@
 #include "BaseObject.h"
 #include "Button.h"
 
-
-
-
 bool InitData();
 bool LoadMedia();
 void close();

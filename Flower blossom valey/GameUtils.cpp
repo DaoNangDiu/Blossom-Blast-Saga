@@ -129,8 +129,8 @@ void HandleHelpButton(SDL_Event* e,
                             BackButton.currentSprite = BUTTON_MOUSE_OVER;
                             break;
                         case SDL_MOUSEBUTTONDOWN:
-                            BackButton.currentSprite = BUTTON_MOUSE_OVER;
                             Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+                            BackButton.currentSprite = BUTTON_MOUSE_OVER;
                             ReadDone = true;
                             break;
                         }

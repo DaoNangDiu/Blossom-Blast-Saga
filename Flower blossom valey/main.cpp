@@ -10,7 +10,6 @@
 #include "GameUtils.h"
 #include "Button.h"
 #include<bits/stdc++.h>
-
 BaseObject g_background;
 
 
@@ -130,16 +129,15 @@ void close()
     gText2Texture.Free();
     gHighScoreTexture.Free();
 
-    for (int i = 0; i < BACKGROUND_LAYER; ++i)
-    {
-        gBackgroundTexture[i].Free();
-    }
+//    for (int i = 0; i < BACKGROUND_LAYER; ++i)
+//    {
+//        gBackgroundTexture[i].Free();
+//    }
 
     Mix_FreeMusic(gMusic);
     Mix_FreeMusic(gMenuMusic);
     Mix_FreeChunk(gClick);
     Mix_FreeChunk(gLose);
-    Mix_FreeChunk(gJump);
     gMusic = nullptr;
     gMenuMusic = nullptr;
     gClick = nullptr;
@@ -255,7 +253,6 @@ int main(int argc, char* argv[])
                 }
 
                 playLayer.exec();
-
 
             }
 
@@ -388,7 +385,7 @@ bool LoadMedia()
                     gBackButton[i].x = 150 * i;
                     gBackButton[i].y = 0;
                     gBackButton[i].w = 150;
-                    gBackButton[i].h = 78;
+                    gBackButton[i].h = 130;
                 }
             }
 
