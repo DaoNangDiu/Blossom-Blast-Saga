@@ -439,18 +439,7 @@ bool LoadMedia()
 
 
 
-            if (!gGroundTexture.LoadImg("img/background/ground.png", g_screen))
-            {
-                std::cout << "Failed to load ground image" << std::endl;
-                success = false;
-            }
 
-
-            if (!gLoseTexture.LoadImg("img/background/lose.png", g_screen))
-            {
-                std::cout << "Failed to load lose image." << std::endl;
-                success = false;
-            }
         }
     }
     return success;

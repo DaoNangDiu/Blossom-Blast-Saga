@@ -5,7 +5,7 @@
 #include "Function.h"
 #include "GameUtils.h"
 #include <bits/stdc++.h>
-const int Esize = 105;
+const int Esize = 94;
 
 vector<vector<SDL_Rect>> rect_table;
 
@@ -64,8 +64,8 @@ int PlayLayer::exec()
             {
             case SDL_MOUSEBUTTONUP:
             {
-                auto x = (e.button.x-220) / (Esize+7);
-                auto y = (e.button.y-170) / (Esize+7);
+                auto x = (e.button.x-530) / (Esize+7);
+                auto y = (e.button.y-200) / (Esize+7);
                 if (selectedX >= 0 && selectedY >= 0 &&
                         ((abs(x - selectedX) == 1 && y == selectedY) || (abs(y - selectedY) == 1 && x == selectedX)))
                 {
@@ -88,7 +88,7 @@ int PlayLayer::exec()
                 }
                 else
                 {
-                    selectedX = (e.button.x-220) / (Esize+7);
+                    selectedX = (e.button.x-530) / (Esize+7);
                     selectedY = (e.button.y-220) / (Esize+7);
                 }
             }
@@ -155,14 +155,14 @@ void PlayLayer::draw2()
 {
 //   SDL_RenderClear(renderer);
     Texture bg;
-    bg.loadFromFile("bg.png");
+    bg.loadFromFile("bg1.png");
     bg.render(0,0,1600, 900,NULL);
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
         {
             Texture ss;
             ss.loadFromFile("o1.png");
-            ss.render((Esize)*(x)-6+220+7*x,(Esize)*(y)-6+170+7*y,112,112,NULL);
+            ss.render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,98,98,NULL);
         }
 
     for (int x = 0; x < MATRIX_WIDTH; ++x)
@@ -174,18 +174,18 @@ void PlayLayer::draw2()
                 {
                     Texture ss;
                     ss.loadFromFile(elementNormal[matrix[x][y]]);
-                    ss.render(Esize*x+220+7*x,Esize*y+170+7*y,100,100,NULL);
+                    ss.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
                 }
             }
         }
         TTF_Font *font = NULL;
-        font = TTF_OpenFont("font/pixel_font.ttf",32);
+        font = TTF_OpenFont("font/Pacifico.ttf",24);
         Texture text;
         string t = std::to_string(score)  ;
-        text.loadString("font/pixel_font.ttf",t,font);
-        SDL_Color textColor = {255, 255, 255}; // Màu trắng
+        text.loadString("font/Pacifico.ttf",t,font);
+        SDL_Color textColor = {139, 69, 19}; // Màu trắng
         text.setColor(textColor.r, textColor.g, textColor.b);
-        text.render(100, 100,200,200,NULL);
+        text.render(150, 620,100,100,NULL);
         cout << score << " " ;
 }
 

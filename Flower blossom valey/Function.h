@@ -1,7 +1,7 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 #include<bits/stdc++.h>
-#define MATRIX_WIDTH (10)
+#define MATRIX_WIDTH (9)
 #define MATRIX_HEIGHT (5)
 using namespace std;
 
