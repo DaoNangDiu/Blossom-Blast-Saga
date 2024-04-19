@@ -72,11 +72,14 @@ int PlayLayer::exec()
                     std::swap(matrix[x][y], matrix[selectedX][selectedY]);
                     bee2(matrix, x, y, selectedX,selectedY);
                     beeplain(matrix,x,y,selectedX,selectedY);
-                    bee(matrix,x,y);
-                    stripes(matrix,x,y);
-                    plain(matrix,x,y,score);
-                    cout << score << " ";
-                    stripes2(matrix,x,y,selectedX,selectedY);
+                    if ( matrix[selectedX][selectedY] >= 5 )
+
+                    {
+                        bee(matrix,x,y);
+                        stripes(matrix,x,y);
+                        plain(matrix,x,y,score);
+                        stripes2(matrix,x,y,selectedX,selectedY);
+                    }
                     if ( matrix[selectedX][selectedY] < 5 )
                     {
                         bee(matrix,selectedX,selectedY);
@@ -170,22 +173,32 @@ void PlayLayer::draw2()
         {
             if (matrix[x][y] >= 0)
             {
-                if (x != selectedX || y != selectedY || SDL_GetTicks() % 250 > 125)
+                if (x != selectedX || y != selectedY )
                 {
                     Texture ss;
                     ss.loadFromFile(elementNormal[matrix[x][y]]);
                     ss.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
                 }
+                else
+                {
+                    Texture ss;
+                    ss.loadFromFile(elementNormal[matrix[x][y]]);
+                    ss.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
+                        Texture border;
+                border.loadFromFile("5.png");
+                                    border.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
+
+                }
             }
         }
-        TTF_Font *font = NULL;
-        font = TTF_OpenFont("font/Pacifico.ttf",24);
-        Texture text;
-        string t = std::to_string(score)  ;
-        text.loadString("font/Pacifico.ttf",t,font);
-        SDL_Color textColor = {139, 69, 19}; // Màu trắng
-        text.setColor(textColor.r, textColor.g, textColor.b);
-        text.render(150, 620,100,100,NULL);
-        cout << score << " " ;
+    TTF_Font *font = NULL;
+    font = TTF_OpenFont("font/Pacifico.ttf",24);
+    Texture text;
+    string t = std::to_string(score)  ;
+    text.loadString("font/Pacifico.ttf",t,font);
+    SDL_Color textColor = {139, 69, 19}; // Màu trắng
+    text.setColor(textColor.r, textColor.g, textColor.b);
+    text.render(150, 620,100,100,NULL);
+    cout << score << " " ;
 }
 
