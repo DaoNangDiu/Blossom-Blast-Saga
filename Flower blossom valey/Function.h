@@ -7,32 +7,9 @@ using namespace std;
 
 const int target = 1000, moves = 20 ;
 int score;
-int rstart = 0, cstart = 0;
-int cropped = 0 ;
+
 char element;
-int mark[MATRIX_WIDTH][MATRIX_HEIGHT];
-int dx[2] = {-1,1};
-int dy[2] = {-1,1};
-void loang ( int x, int y )
-{
-    int res = 0;
-    queue<pair<int,int>> q;
-    q.push({x, y});
-    mark[x][y] = 1;
-    while ( !q.empty())
-    {
-        int x = q.front().first, y = q.front().second;
-        q.pop();
-        res++;
-        for ( int i = 0 ; i < 2 ; ++i )
-        {
-            if ( x+dx[i] >= 0 && x+dx[i] < MATRIX_WIDTH && y+dy[i] >= 0 && y+dy[i] < MATRIX_HEIGHT && !mark[x+dx[i]][y+dy[i]])
-            {
-                q.push({x+dx[i],y+dy[i]});
-            }
-        }
-    }
-}
+
 char elementCheck( int i )
 {
     switch (i)
@@ -71,25 +48,25 @@ void scorer ( char element, int num )
     {
     case 'h':
     case 'c':
-        {
-            score += (30*num);
-            break;
-        }
+    {
+        score += (30*num);
+        break;
+    }
     case 'n':
     case 'l':
-        {
-            score += (40*num);
-            break;
-        }
+    {
+        score += (40*num);
+        break;
+    }
     case 'r':
-        {
-            score+= (50*num);
-            break;
-        }
+    {
+        score+= (50*num);
+        break;
+    }
     default:
-        {
-            break;
-        }
+    {
+        break;
+    }
     }
 }
 
@@ -167,12 +144,13 @@ void plain ( int** matrix,int i, int j, int& score)
                 matrix[index.first-1][index.second+1] = -1;
                 matrix[index.first+1][index.second-1] = -1;
                 matrix[index.first][index.second] = -1;
+                scorer(element,6);
             }
             else
-               {
-                   matrix[index.first][index.second] = -1;
-               }
-           scorer(element,1);
+            {
+                matrix[index.first][index.second] = -1;
+            }
+            scorer(element,1);
         }
     }
     if ( ColSize >= 3 )
@@ -190,12 +168,13 @@ void plain ( int** matrix,int i, int j, int& score)
                 matrix[index.first-1][index.second+1] = -1;
                 matrix[index.first+1][index.second-1] = -1;
                 matrix[index.first][index.second] = -1;
+                scorer(element,7);
             }
             else
-                {
-                    matrix[index.first][index.second] = -1;
-                    scorer(element,1);
-                }
+            {
+                matrix[index.first][index.second] = -1;
+                scorer(element,1);
+            }
         }
     }
 }
@@ -203,6 +182,7 @@ void plain ( int** matrix,int i, int j, int& score)
 
 void stripes ( int** matrix, int i, int j )
 {
+    element = elementCheck(matrix[i][j]);
     int temp = matrix[i][j];
     vector<pair<int,int>> colChainList;
     vector<pair<int,int>> rowChainList;
@@ -220,12 +200,14 @@ void stripes ( int** matrix, int i, int j )
         {
             matrix[index.first][index.second] = -1;
         }
+        scorer(element,ColSize+RowSize-1);
         matrix[i][j] = temp + 5;
     }
 }
 
 void bee ( int** matrix, int i, int j )
 {
+    element = elementCheck(matrix[i][j]);
     vector<pair<int,int>> colChainList;
     vector<pair<int,int>> rowChainList;
     getRowChain(i,j,rowChainList,matrix );
@@ -237,9 +219,10 @@ void bee ( int** matrix, int i, int j )
         for ( auto index : colChainList )
         {
             matrix[index.first][index.second] = -1;
-                        cout << index.first << " " << index.second << endl;
+            cout << index.first << " " << index.second << endl;
 
         }
+        scorer(element,ColSize);
         matrix[i][j] = 10;
     }
     if ( RowSize >= 5 )
@@ -247,9 +230,10 @@ void bee ( int** matrix, int i, int j )
         for ( auto index : rowChainList )
         {
             matrix[index.first][index.second] = -1;
-                        cout << index.first << " " << index.second << endl;
+            cout << index.first << " " << index.second << endl;
 
         }
+        scorer(element,ColSize);
         matrix[i][j]=10;
     }
 }
@@ -260,13 +244,18 @@ void beeplain( int** matrix, int i, int j, int selectedX, int selectedY )
     {
         if ( matrix[i][j] >= 0 && matrix[i][j] < 5 )
         {
+            element = elementCheck(matrix[i][j]);
             int temp = matrix[i][j];
             matrix[selectedX][selectedY] = -1;
             matrix[i][j] = -1;
             for ( int x = 0 ; x < MATRIX_WIDTH ; x++ )
                 for ( int y = 0 ; y < MATRIX_HEIGHT ; y++ )
                 {
-                    if ( matrix[x][y] == temp ) matrix[x][y] = -1;
+                    if ( matrix[x][y] == temp )
+                    {
+                        matrix[x][y] = -1;
+                        scorer(element,1);
+                    }
                 }
         }
     }
@@ -275,31 +264,38 @@ void beeplain( int** matrix, int i, int j, int selectedX, int selectedY )
         if ( matrix[selectedX][selectedY] >= 0 && matrix[selectedX][selectedY] < 5 )
         {
             int temp = matrix[selectedX][selectedY];
+            element = elementCheck(temp);
             matrix[selectedX][selectedY] = -1;
             matrix[i][j] = -1;
             for ( int x = 0 ; x < MATRIX_WIDTH ; x++ )
                 for ( int y = 0 ; y < MATRIX_HEIGHT ; y++ )
                 {
-                    if ( matrix[x][y] == temp ) matrix[x][y] = -1;
+                    if ( matrix[x][y] == temp )
+                    {
+                        matrix[x][y] = -1;
+                        scorer(element,1);
+                    }
                 }
         }
     }
 }
 
-void stripes2 ( int** matrix, int i, int j , int selectedX, int selecttedY )
+void stripes2 ( int** matrix, int i, int j, int selectedX, int selecttedY )
 {
     if ( matrix[i][j] >= 5 && matrix[i][j] < 10 && matrix[selectedX][selecttedY] >= 5 && matrix[selectedX][selecttedY] < 10 )
     {
         for ( int x = -2 ; x <= 1 ; x++)
             for ( int y = -2; y <= 1 ; y++ )
-        {
-            matrix[i+x][i+y] = -1;
-            matrix[selectedX+x][selecttedY+y] = -1;
-        }
+            {
+                scorer(elementCheck(matrix[i+x][j+y]),1);
+                scorer(elementCheck(matrix[selectedX+x][selecttedY+y]),1);
+                matrix[i+x][j+y] = -1;
+                matrix[selectedX+x][selecttedY+y] = -1;
+            }
     }
 }
 
-void bee2 (int** matrix, int i, int j ,int selectedX, int selectedY)
+void bee2 (int** matrix, int i, int j,int selectedX, int selectedY)
 {
     if ( matrix[i][j] == 10 && matrix[selectedX][selectedY] == 10 )
     {
@@ -307,9 +303,10 @@ void bee2 (int** matrix, int i, int j ,int selectedX, int selectedY)
         matrix[selectedX][selectedY]=-1;
         for ( int x =0  ; x < MATRIX_WIDTH ; x++)
             for ( int y = 0 ; y < MATRIX_HEIGHT ; y++ )
-        {
-            matrix[x][y] = -1;
-        }
+            {
+                scorer(elementCheck(matrix[x][y]),1);
+                       matrix[x][y] = -1;
+            }
     }
 }
 
