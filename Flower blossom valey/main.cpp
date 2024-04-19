@@ -1,4 +1,3 @@
-
 #include "CommonFunc.h"
 #include "BaseObject.h"
 #include "PlayLayer.h"
@@ -63,7 +62,7 @@ bool InitData()
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-    g_window = SDL_CreateWindow("Puzzle! Monster",
+    g_window = SDL_CreateWindow("Flower Blossom Valley",
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -100,17 +99,6 @@ bool InitData()
     return success;
 }
 
-//bool LoadBackground()
-//{
-//    bool success = true;
-//
-//    bool ret = g_background.LoadImg("img//background.jpg", g_screen);
-//    if (ret == false)
-//        return false;
-//
-//    return true;
-//}
-
 void close()
 {
     gMenuTexture.Free();
@@ -128,12 +116,6 @@ void close()
     gScoreTexture.Free();
     gText2Texture.Free();
     gHighScoreTexture.Free();
-
-//    for (int i = 0; i < BACKGROUND_LAYER; ++i)
-//    {
-//        gBackgroundTexture[i].Free();
-//    }
-
     Mix_FreeMusic(gMusic);
     Mix_FreeMusic(gMenuMusic);
     Mix_FreeChunk(gClick);
@@ -161,17 +143,12 @@ int main(int argc, char* argv[])
 {
     if (InitData() == false)
         return -1;
-
-//    if (LoadBackground() == false)
-//        return -1;
-
     if (LoadMedia() == false)
         return -1;
-
     bool Quit_Menu = false;
     bool Play_Again = false;
+    bool Quit_Play = false;
     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
-
     while (!Quit_Menu)
     {
         SDL_Event e_mouse;
@@ -218,10 +195,6 @@ int main(int argc, char* argv[])
     while(Play_Again)
     {
         srand(time(NULL));
-
-
-
-
         bool is_quit = false;
         bool Game_State = true;
         while (!is_quit)
@@ -267,7 +240,8 @@ int main(int argc, char* argv[])
     close();
     return 0;
 }
-//ưtf nay xoa nham ngoac nao a khum bt nx
+
+
 bool LoadMedia()
 {
     bool success = true;
@@ -436,10 +410,6 @@ bool LoadMedia()
                     gContinueButton[i].h = 34;
                 }
             }
-
-
-
-
         }
     }
     return success;

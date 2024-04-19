@@ -25,8 +25,6 @@ void PlayLayer::createMatrix(int width, int height)
 
 bool PlayLayer::init()
 {
-    // Initialize matrix
-    //std::cout << MATRIX_WIDTH << " " << MATRIX_HEIGHT << std::endl;
     createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
 
     int x = 220, y = 170;
@@ -72,20 +70,13 @@ int PlayLayer::exec()
                     std::swap(matrix[x][y], matrix[selectedX][selectedY]);
                     bee2(matrix, x, y, selectedX,selectedY);
                     beeplain(matrix,x,y,selectedX,selectedY);
-                    if ( matrix[selectedX][selectedY] >= 5 )
-
-                    {
-                        bee(matrix,x,y);
-                        stripes(matrix,x,y);
-                        plain(matrix,x,y,score);
-                        stripes2(matrix,x,y,selectedX,selectedY);
-                    }
-                    if ( matrix[selectedX][selectedY] < 5 )
-                    {
-                        bee(matrix,selectedX,selectedY);
-                        stripes(matrix,selectedX,selectedY);
-                        plain(matrix,selectedX,selectedY,score);
-                    }
+                    stripes2(matrix,x,y,selectedX,selectedY);
+                    bee(matrix,x,y);
+                    bee(matrix,selectedX,selectedY);
+                    stripes(matrix,selectedX,selectedY);
+                    stripes(matrix,x,y);
+                    plain(matrix,x,y,score);
+                    plain(matrix,selectedX,selectedY,score);
                     selectedX = -1;
                     selectedY = -1;
                 }
@@ -156,7 +147,6 @@ bool PlayLayer::createAndDropElement()
 
 void PlayLayer::draw2()
 {
-//   SDL_RenderClear(renderer);
     Texture bg;
     bg.loadFromFile("bg1.png");
     bg.render(0,0,1600, 900,NULL);
@@ -184,9 +174,9 @@ void PlayLayer::draw2()
                     Texture ss;
                     ss.loadFromFile(elementNormal[matrix[x][y]]);
                     ss.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
-                        Texture border;
-                border.loadFromFile("5.png");
-                                    border.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
+                    Texture border;
+                    border.loadFromFile("5.png");
+                    border.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
 
                 }
             }
@@ -196,9 +186,8 @@ void PlayLayer::draw2()
     Texture text;
     string t = std::to_string(score)  ;
     text.loadString("font/Pacifico.ttf",t,font);
-    SDL_Color textColor = {139, 69, 19}; // Màu trắng
+    SDL_Color textColor = {139, 69, 19};
     text.setColor(textColor.r, textColor.g, textColor.b);
     text.render(150, 620,100,100,NULL);
-    cout << score << " " ;
 }
 

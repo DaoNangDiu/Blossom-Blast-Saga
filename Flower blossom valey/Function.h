@@ -10,7 +10,29 @@ int score;
 int rstart = 0, cstart = 0;
 int cropped = 0 ;
 char element;
-
+int mark[MATRIX_WIDTH][MATRIX_HEIGHT];
+int dx[2] = {-1,1};
+int dy[2] = {-1,1};
+void loang ( int x, int y )
+{
+    int res = 0;
+    queue<pair<int,int>> q;
+    q.push({x, y});
+    mark[x][y] = 1;
+    while ( !q.empty())
+    {
+        int x = q.front().first, y = q.front().second;
+        q.pop();
+        res++;
+        for ( int i = 0 ; i < 2 ; ++i )
+        {
+            if ( x+dx[i] >= 0 && x+dx[i] < MATRIX_WIDTH && y+dy[i] >= 0 && y+dy[i] < MATRIX_HEIGHT && !mark[x+dx[i]][y+dy[i]])
+            {
+                q.push({x+dx[i],y+dy[i]});
+            }
+        }
+    }
+}
 char elementCheck( int i )
 {
     switch (i)
@@ -71,32 +93,32 @@ void scorer ( char element, int num )
     }
 }
 
-void getColChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
+void getRowChain(int i, int j, vector<pair<int,int>> &chaiList, int** matrix)
 {
-    chainList.push_back(make_pair(i,j));
+    chaiList.push_back(make_pair(i,j));
     int neighCol = j-1;
     while ( neighCol >= 0 )
     {
         if( elementCheck(matrix[i][neighCol]) == elementCheck(matrix[i][j]) )
         {
-            chainList.push_back(make_pair(i,neighCol));
+            chaiList.push_back(make_pair(i,neighCol));
             neighCol--;
         }
         else break;
     }
     neighCol = j+1;
-    while ( elementCheck(neighCol) < elementCheck(MATRIX_HEIGHT))
+    while ( neighCol < MATRIX_HEIGHT )
     {
         if( matrix[i][neighCol] == matrix[i][j] )
         {
-            chainList.push_back(make_pair(i,neighCol));
+            chaiList.push_back(make_pair(i,neighCol));
             neighCol++;
         }
         else break;
     }
 }
 
-void getRowChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
+void getColChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
 {
     chainList.push_back(make_pair(i,j));
     int neighRow = i-1;
@@ -149,8 +171,8 @@ void plain ( int** matrix,int i, int j, int& score)
             else
                {
                    matrix[index.first][index.second] = -1;
-                   scorer(element,1);
                }
+           scorer(element,1);
         }
     }
     if ( ColSize >= 3 )
@@ -204,7 +226,6 @@ void stripes ( int** matrix, int i, int j )
 
 void bee ( int** matrix, int i, int j )
 {
-    int temp = matrix[i][j];
     vector<pair<int,int>> colChainList;
     vector<pair<int,int>> rowChainList;
     getRowChain(i,j,rowChainList,matrix );
@@ -216,6 +237,8 @@ void bee ( int** matrix, int i, int j )
         for ( auto index : colChainList )
         {
             matrix[index.first][index.second] = -1;
+                        cout << index.first << " " << index.second << endl;
+
         }
         matrix[i][j] = 10;
     }
@@ -224,6 +247,8 @@ void bee ( int** matrix, int i, int j )
         for ( auto index : rowChainList )
         {
             matrix[index.first][index.second] = -1;
+                        cout << index.first << " " << index.second << endl;
+
         }
         matrix[i][j]=10;
     }

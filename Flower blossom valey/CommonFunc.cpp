@@ -1,4 +1,3 @@
-
 #include "CommonFunc.h"
 
 void LogError(std::string msg, int error_code)
