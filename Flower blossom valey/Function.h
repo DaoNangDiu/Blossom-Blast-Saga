@@ -17,22 +17,27 @@ char elementCheck( int i )
     {
     case 0:
     case 5:
+    case 11:
         return 'h';
         break;
     case 1:
     case 6:
+    case 12:
         return 'c';
         break;
     case 2:
     case 7:
+    case 13:
         return 'l';
         break;
     case 3:
     case 8:
+    case 14:
         return 'n';
         break;
     case 4:
     case 9:
+    case 15:
         return 'd';
         break;
     case 10:
@@ -136,22 +141,38 @@ void plain ( int** matrix,int i, int j, int& score)
         {
             if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
             {
-                matrix[index.first-1][index.second] = -1;
-                matrix[index.first+1][index.second] = -1;
-                matrix[index.first][index.second-1] = -1;
-                matrix[index.first][index.second+1] = -1;
-                matrix[index.first-1][index.second-1] = -1;
-                matrix[index.first+1][index.second+1] = -1;
-                matrix[index.first-1][index.second+1] = -1;
-                matrix[index.first+1][index.second-1] = -1;
-                matrix[index.first][index.second] = -1;
-                scorer(element,6);
+                for ( int x = -1 ; x <= 1 ; x++ )
+                    for ( int y = -1 ; y <= 1 ; y++ )
+                    {
+                        if ( matrix[index.first+x][index.second+y] > 10 )
+                        {
+                            matrix[index.first+x][index.second+y] -= 11;
+                        }
+                        else
+                        {
+                            matrix[index.first-1][index.second] = -1;
+                            matrix[index.first+1][index.second] = -1;
+                            matrix[index.first][index.second-1] = -1;
+                            matrix[index.first][index.second+1] = -1;
+                            matrix[index.first-1][index.second-1] = -1;
+                            matrix[index.first+1][index.second+1] = -1;
+                            matrix[index.first-1][index.second+1] = -1;
+                            matrix[index.first+1][index.second-1] = -1;
+                            matrix[index.first][index.second] = -1;
+                            scorer(element,6);
+                        }
+                    }
             }
             else
             {
-                matrix[index.first][index.second] = -1;
+                if ( matrix[index.first][index.second] > 10 )
+                    matrix[index.first][index.second] -= 11;
+                else
+                {
+                    matrix[index.first][index.second] = -1;
+                    scorer(element,1);
+                }
             }
-            scorer(element,1);
         }
     }
     if ( ColSize >= 3 )
@@ -160,21 +181,37 @@ void plain ( int** matrix,int i, int j, int& score)
         {
             if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
             {
-                matrix[index.first-1][index.second] = -1;
-                matrix[index.first+1][index.second] = -1;
-                matrix[index.first][index.second-1] = -1;
-                matrix[index.first][index.second+1] = -1;
-                matrix[index.first-1][index.second-1] = -1;
-                matrix[index.first+1][index.second+1] = -1;
-                matrix[index.first-1][index.second+1] = -1;
-                matrix[index.first+1][index.second-1] = -1;
-                matrix[index.first][index.second] = -1;
-                scorer(element,7);
+                for ( int x = -1 ; x <= 1 ; x++ )
+                    for ( int y = -1 ; y <= 1 ; y++ )
+                    {
+                        if ( matrix[index.first+x][index.second+y] > 10 )
+                        {
+                            matrix[index.first+x][index.second+y] -= 11;
+                        }
+                        else
+                        {
+                            matrix[index.first-1][index.second] = -1;
+                            matrix[index.first+1][index.second] = -1;
+                            matrix[index.first][index.second-1] = -1;
+                            matrix[index.first][index.second+1] = -1;
+                            matrix[index.first-1][index.second-1] = -1;
+                            matrix[index.first+1][index.second+1] = -1;
+                            matrix[index.first-1][index.second+1] = -1;
+                            matrix[index.first+1][index.second-1] = -1;
+                            matrix[index.first][index.second] = -1;
+                            scorer(element,6);
+                        }
+                    }
             }
             else
             {
-                matrix[index.first][index.second] = -1;
-                scorer(element,1);
+                if ( matrix[index.first][index.second] > 10 )
+                    matrix[index.first][index.second] -= 11;
+                else
+                {
+                    matrix[index.first][index.second] = -1;
+                    scorer(element,1);
+                }
             }
         }
     }
@@ -195,7 +232,10 @@ void stripes ( int** matrix, int i, int j )
     {
         for ( auto index : rowChainList )
         {
-            matrix[index.first][index.second] = -1;
+            if (matrix[index.first][index.second] > 10 )
+                matrix[index.first][index.second] -= 11;
+            else
+                matrix[index.first][index.second] = -1;
         }
         for ( auto index : colChainList )
         {
@@ -234,7 +274,7 @@ void bee ( int** matrix, int i, int j )
             cout << index.first << " " << index.second << endl;
 
         }
-        scorer(element,ColSize);
+        scorer(element,RowSize);
         matrix[i][j]=10;
     }
 }
@@ -306,10 +346,11 @@ void bee2 (int** matrix, int i, int j,int selectedX, int selectedY)
             for ( int y = 0 ; y < MATRIX_HEIGHT ; y++ )
             {
                 scorer(elementCheck(matrix[x][y]),1);
-                       matrix[x][y] = -1;
+                matrix[x][y] = -1;
             }
     }
 }
 
 
 #endif // FUNCTION_H
+s
