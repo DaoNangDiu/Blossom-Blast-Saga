@@ -1,16 +1,21 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 #include<bits/stdc++.h>
-#define MATRIX_WIDTH (9)
-#define MATRIX_HEIGHT (5)
+int MATRIX_WIDTH;
+int MATRIX_HEIGHT;
 using namespace std;
 
-const int target = 1000;
-int moves = 20 ;
+int target;
+int moves  ;
 int score;
+ifstream f("Level 1.txt");
 
 char element;
-
+void nhapfile()
+{
+     f >> moves >> target >> MATRIX_WIDTH >> MATRIX_HEIGHT;
+     cout << moves << " " << target << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
+}
 char elementCheck( int i )
 {
     switch (i)

@@ -5,6 +5,7 @@
 #include "code.h"
 #include "BaseObject.h"
 #include "Function.h"
+
 const int Esize = 94;
 PlayLayer::PlayLayer( SDL_Renderer *newrender)
 {
@@ -12,7 +13,6 @@ PlayLayer::PlayLayer( SDL_Renderer *newrender)
 }
 PlayLayer::~PlayLayer()
 {}
-
 void PlayLayer::createMatrix(int width, int height)
 {
     matrix = new int*[width];
@@ -22,11 +22,14 @@ void PlayLayer::createMatrix(int width, int height)
 
 bool PlayLayer::init()
 {
+    nhapfile();
     createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
         {
-            matrix[i][j] = rand()%5;
+            f >> matrix[i][j];
+            cout << matrix[i][j];
+//            matrix[i][j] = rand()%5;
         }
     return true;
 }
@@ -81,7 +84,7 @@ int PlayLayer::exec()
                 return 1;
         oldTick = currentTick;
         SDL_RenderClear(renderer);
-        if ( moves > 18 )
+        if ( moves < 18 )
         draw();
         else
         {
