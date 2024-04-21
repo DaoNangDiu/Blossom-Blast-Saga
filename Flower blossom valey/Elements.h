@@ -7,17 +7,17 @@
 
 static const std::string elementNormal[TOTAL_ELEMENT] =
 {
-    "flower.png",
-    "tree.png",
-    "fire.png",
-    "water.png",
-    "rock.png",
-    "flower2.png",
-    "tree2.png",
-    "fire2.png",
-    "water2.png",
-    "rock2.png",
-    "bee.png"
+    "img/Element c1/flower.png",
+    "img/Element c1/tree.png",
+    "img/Element c1/fire.png",
+    "img/Element c1/water.png",
+    "img/Element c1/rock.png",
+    "img/Element c2/flower2.png",
+    "img/Element c2/tree2.png",
+    "img/Element c2/fire2.png",
+    "img/Element c2/water2.png",
+    "img/Element c2/rock2.png",
+    "img/Element c2/bee.png"
 };
 
 #endif /* defined(__SUSHI_SPRITE_H__) */

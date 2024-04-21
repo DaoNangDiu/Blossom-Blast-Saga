@@ -145,14 +145,17 @@ void PlayLayer::draw()
     BaseObject bg;
     SDL_Rect bg_rect;
     bg_rect={0,0,1600,900};
-    bg.LoadImg("bg1.png",renderer);
+    bg.LoadImg("img/background/bg1.png",renderer);
     bg.Render(0,0,renderer,&bg_rect);
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
         {
             BaseObject ss;
             SDL_Rect ss1={0,0,112,112};
-            ss.LoadImg("o1.png",renderer);
+            if ( (x+y) %2 == 0)
+            ss.LoadImg("img/Other/tile64_dark.png",renderer);
+            else
+            ss.LoadImg("img/Other/tile64_light.png",renderer);
             ss.Render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,renderer,&ss1);
         }
 
@@ -177,7 +180,7 @@ void PlayLayer::draw()
                     ss.LoadImg(elementNormal[matrix[x][y]],renderer);
                     ss.Render(Esize*x+530+7*x,Esize*y+200+7*y, renderer,&ss1);
                     BaseObject border;
-                    border.LoadImg("5.png",renderer);
+                    border.LoadImg("img/Other/border.png",renderer);
                     border.Render(Esize*x+530+7*x,Esize*y+200+7*y, renderer,&ss1);
 
                 }
