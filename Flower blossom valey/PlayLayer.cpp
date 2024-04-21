@@ -1,17 +1,14 @@
 #include "PlayLayer.h"
 #include "Elements.h"
-#include "texture.h"
 #include <bits/stdc++.h>
-#include "Function.h"
 #include "GameUtils.h"
-#include <bits/stdc++.h>
+#include "code.h"
+#include "BaseObject.h"
+#include "Function.h"
 const int Esize = 94;
-
-vector<vector<SDL_Rect>> rect_table;
-
-PlayLayer::PlayLayer(SDL_Renderer* newRender)
+PlayLayer::PlayLayer( SDL_Renderer *newrender)
 {
-    renderer = newRender;
+    renderer= newrender;
 }
 PlayLayer::~PlayLayer()
 {}
@@ -26,22 +23,6 @@ void PlayLayer::createMatrix(int width, int height)
 bool PlayLayer::init()
 {
     createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
-
-    int x = 220, y = 170;
-
-    rect_table.resize(6, vector<SDL_Rect>(11));
-
-    for(int i = 0; i < 5; i ++)
-    {
-        for(int j = 0; j < 10; j ++)
-        {
-            SDL_Rect tmp = {x, y, 112, 112};
-            rect_table[i][j] = tmp;
-            x += 112;
-        }
-        y += 112;
-    }
-
     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
         {
@@ -49,6 +30,7 @@ bool PlayLayer::init()
         }
     return true;
 }
+
 
 int PlayLayer::exec()
 {
@@ -79,6 +61,7 @@ int PlayLayer::exec()
                     plain(matrix,selectedX,selectedY,score);
                     selectedX = -1;
                     selectedY = -1;
+                    moves--;
                 }
                 else
                 {
@@ -98,7 +81,19 @@ int PlayLayer::exec()
                 return 1;
         oldTick = currentTick;
         SDL_RenderClear(renderer);
-        draw2();
+        if ( moves > 18 )
+        draw();
+        else
+        {
+            if ( score <= target )
+
+                {
+                    BaseObject fn;
+                    fn.LoadImg("bg.png",renderer);
+                    SDL_Rect fn1{0,0,1600,900};
+                    fn.Render(0,0,renderer,&fn1);
+                }
+        }
         SDL_RenderPresent(renderer);
     }
     return 0;
@@ -145,17 +140,20 @@ bool PlayLayer::createAndDropElement()
 
 }
 
-void PlayLayer::draw2()
+void PlayLayer::draw()
 {
-    Texture bg;
-    bg.loadFromFile("bg1.png");
-    bg.render(0,0,1600, 900,NULL);
+    BaseObject bg;
+    SDL_Rect bg_rect;
+    bg_rect={0,0,1600,900};
+    bg.LoadImg("bg1.png",renderer);
+    bg.Render(0,0,renderer,&bg_rect);
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
         {
-            Texture ss;
-            ss.loadFromFile("o1.png");
-            ss.render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,98,98,NULL);
+            BaseObject ss;
+            SDL_Rect ss1={0,0,112,112};
+            ss.LoadImg("o1.png",renderer);
+            ss.Render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,renderer,&ss1);
         }
 
     for (int x = 0; x < MATRIX_WIDTH; ++x)
@@ -165,29 +163,36 @@ void PlayLayer::draw2()
             {
                 if (x != selectedX || y != selectedY )
                 {
-                    Texture ss;
-                    ss.loadFromFile(elementNormal[matrix[x][y]]);
-                    ss.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
+                    BaseObject ss;
+                    ss.LoadImg(elementNormal[matrix[x][y]],renderer);
+                                SDL_Rect ss1={0,0,112,112};
+
+                    ss.Render(Esize*x+530+7*x,Esize*y+200+7*y,renderer, &ss1);
                 }
                 else
                 {
-                    Texture ss;
-                    ss.loadFromFile(elementNormal[matrix[x][y]]);
-                    ss.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
-                    Texture border;
-                    border.loadFromFile("5.png");
-                    border.render(Esize*x+530+7*x,Esize*y+200+7*y, 98,98,NULL);
+                    BaseObject ss;
+                    SDL_Rect ss1={0,0,112,112};
+
+                    ss.LoadImg(elementNormal[matrix[x][y]],renderer);
+                    ss.Render(Esize*x+530+7*x,Esize*y+200+7*y, renderer,&ss1);
+                    BaseObject border;
+                    border.LoadImg("5.png",renderer);
+                    border.Render(Esize*x+530+7*x,Esize*y+200+7*y, renderer,&ss1);
 
                 }
             }
         }
     TTF_Font *font = NULL;
-    font = TTF_OpenFont("font/Pacifico.ttf",24);
-    Texture text;
+    font = TTF_OpenFont("font/Cute Dino.ttf",64);
+    BaseObject text;
     string t = std::to_string(score)  ;
-    text.loadString("font/Pacifico.ttf",t,font);
-    SDL_Color textColor = {139, 69, 19};
-    text.setColor(textColor.r, textColor.g, textColor.b);
-    text.render(150, 620,100,100,NULL);
+    SDL_Color textColor = {206, 126, 0};
+    text.LoadFromRenderedText(t,font,textColor,renderer);
+    SDL_Rect ss2 = {0,0,150,150};
+    text.Render(150, 650,renderer,&ss2);
+    BaseObject Move;
+    string s = std::to_string(moves);
+    Move.LoadFromRenderedText(s,font,textColor,renderer);
+    Move.Render(150,370,renderer,&ss2);
 }
-

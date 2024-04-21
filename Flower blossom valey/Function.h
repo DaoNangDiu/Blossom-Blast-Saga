@@ -5,7 +5,8 @@
 #define MATRIX_HEIGHT (5)
 using namespace std;
 
-const int target = 1000, moves = 20 ;
+const int target = 1000;
+int moves = 20 ;
 int score;
 
 char element;

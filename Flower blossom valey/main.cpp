@@ -52,6 +52,7 @@ Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
 Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
 Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
 Button PauseButton(PAUSE_BUTTON_POSX, PAUSE_BUTTON_POSY);
+Button ContinueButton(CONTINUE_BUTTON_POSX, CONTINUE_BUTTON_POSY);
 
 bool InitData()
 {
@@ -118,11 +119,11 @@ void close()
     gHighScoreTexture.Free();
     Mix_FreeMusic(gMusic);
     Mix_FreeMusic(gMenuMusic);
-    Mix_FreeChunk(gClick);
+//    Mix_FreeChunk(gClick);
     Mix_FreeChunk(gLose);
     gMusic = nullptr;
     gMenuMusic = nullptr;
-    gClick = nullptr;
+//    gClick = nullptr;
     gLose = nullptr;
     gJump = nullptr;
 
@@ -212,12 +213,11 @@ int main(int argc, char* argv[])
 
                 }
 
-                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-                SDL_RenderClear(g_screen);
+//                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+               SDL_RenderClear(g_screen);
+//
+//                g_background.Render(0,0,g_screen, NULL);
 
-                g_background.Render(0,0,g_screen, NULL);
-
-                SDL_RenderPresent(g_screen);
                 PlayLayer playLayer(g_screen);
                 if (!playLayer.init())
                 {
@@ -226,6 +226,8 @@ int main(int argc, char* argv[])
                 }
 
                 playLayer.exec();
+                          SDL_RenderPresent(g_screen);
+
 
             }
 

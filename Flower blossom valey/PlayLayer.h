@@ -16,8 +16,7 @@ class PlayLayer
         ~PlayLayer();
         int exec();
         bool tick();
-        void draw1();
-        void draw2();
+        void draw();
         bool init();
         //void update();
         //void render();

@@ -43,6 +43,7 @@
 		<Unit filename="GameUtils.h" />
 		<Unit filename="PlayLayer.cpp" />
 		<Unit filename="PlayLayer.h" />
+		<Unit filename="code.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />

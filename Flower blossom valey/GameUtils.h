@@ -3,27 +3,10 @@
 
 #include "BaseObject.h"
 #include "Button.h"
-
+#include "PlayLayer.h"
 bool InitData();
 bool LoadMedia();
 void close();
-
-std::string GetHighScoreFromFile(std::string path);
-
-void UpdateHighScore(std::string path,
-    const int& score,
-    const std::string& old_high_score);
-
-int UpdateGameTimeAndScore(int& time, int& speed, int& score);
-
-void RenderScrollingBackground(std::vector <double>& offsetSpeed,
-    BaseObject(&gBackgroundTexture)[BACKGROUND_LAYER],
-    SDL_Renderer* gRenderer);
-
-void RenderScrollingGround(int& speed,
-    const int acceleration,
-    BaseObject gGroundTexture,
-    SDL_Renderer* gRenderer);
 
 void HandlePlayButton(SDL_Event* e,
     Button& PlayButton,
@@ -62,21 +45,8 @@ void HandlePauseButton(SDL_Event* e,
     bool& game_state,
     Mix_Chunk* gClick);
 
-
-void DrawPlayerScore(BaseObject gTextTexture,
-    BaseObject gScoreTexture,
-    SDL_Color textColor,
-    SDL_Renderer* gRenderer,
-    TTF_Font* gFont,
-    const int& score);
-
-void DrawPlayerHighScore(BaseObject gTextTexture,
-    BaseObject gHighScoreTexture,
-    SDL_Color textColor,
-    SDL_Renderer* gRenderer,
-    TTF_Font* gFont,
-    const std::string& HighScore);
-
+void HandleBackButton ( SDL_Event* e, SDL_Renderer *renderer, SDL_Rect (&gBackButton)[BUTTON_TOTAL],
+                           Button& BackMenuButton, Texture BackMenuTexture);
 void DrawEndGameSelection(BaseObject gLoseTexture,
     SDL_Event* e,
     SDL_Renderer* gRenderer,
