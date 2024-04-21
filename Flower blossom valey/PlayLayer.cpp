@@ -6,7 +6,7 @@
 #include "BaseObject.h"
 #include "Function.h"
 
-const int Esize = 94;
+const int Esize = 112;
 PlayLayer::PlayLayer( SDL_Renderer *newrender)
 {
     renderer= newrender;
@@ -52,8 +52,8 @@ int PlayLayer::exec()
             {
             case SDL_MOUSEBUTTONUP:
             {
-                auto x = (e.button.x-530) / (Esize+7);
-                auto y = (e.button.y-200) / (Esize+7);
+                auto x = (e.button.x-430) / (Esize);
+                auto y = (e.button.y-10) / (Esize);
                 if (selectedX >= 0 && selectedY >= 0 &&
                         ((abs(x - selectedX) == 1 && y == selectedY) || (abs(y - selectedY) == 1 && x == selectedX))&&matrix[selectedX][selectedY] >=0)
                 {
@@ -73,8 +73,8 @@ int PlayLayer::exec()
                 }
                 else
                 {
-                    selectedX = (e.button.x-530) / (Esize+7);
-                    selectedY = (e.button.y-220) / (Esize+7);
+                    selectedX = (e.button.x-430) / (Esize);
+                    selectedY = (e.button.y-10) / (Esize);
                 }
             }
             break;
@@ -97,7 +97,7 @@ int PlayLayer::exec()
                 {
                     BaseObject fn;
                     fn.LoadImg("bg.png",renderer);
-                    SDL_Rect fn1{0,0,1600,900};
+                    SDL_Rect fn1{0,0,1760,990};
                     fn.Render(0,0,renderer,&fn1);
                 }
         }
@@ -108,7 +108,7 @@ int PlayLayer::exec()
 
 bool PlayLayer::tick()
 {
-    if (ticks++ % 200 != 0)
+    if (ticks++ % 10 != 0)
         return true;
     if (createAndDropElement())
         return true;
@@ -165,7 +165,7 @@ void PlayLayer::draw()
                     ss.LoadImg(elementNormal[matrix[x][y]],renderer);
                                 SDL_Rect ss1={0,0,112,112};
 
-                    ss.Render(Esize*x+530+7*x,Esize*y+200+7*y,renderer, &ss1);
+                    ss.Render(Esize*x+430,Esize*y+10,renderer, &ss1);
                 }
                 else
                 {
@@ -173,10 +173,10 @@ void PlayLayer::draw()
                     SDL_Rect ss1={0,0,112,112};
 
                     ss.LoadImg(elementNormal[matrix[x][y]],renderer);
-                    ss.Render(Esize*x+530+7*x,Esize*y+200+7*y, renderer,&ss1);
+                    ss.Render(Esize*x+430,Esize*y+10, renderer,&ss1);
                     BaseObject border;
                     border.LoadImg("img/Other/border.png",renderer);
-                    border.Render(Esize*x+530+7*x,Esize*y+200+7*y, renderer,&ss1);
+                    border.Render(Esize*x+430,Esize*y+10, renderer,&ss1);
 
                 }
             }
@@ -187,20 +187,20 @@ void PlayLayer::draw()
     string t = std::to_string(score)  ;
     SDL_Color textColor = {206, 126, 0};
     text.LoadFromRenderedText(t,font,textColor,renderer);
-    SDL_Rect ss2 = {0,0,150,150};
-    text.Render(150, 650,renderer,&ss2);
+    SDL_Rect ss2 = {0,0,10,10};
+    text.Render(10, 650,renderer,&ss2);
     BaseObject Move;
     string s = std::to_string(moves);
     Move.LoadFromRenderedText(s,font,textColor,renderer);
-    Move.Render(150,370,renderer,&ss2);
+    Move.Render(10,370,renderer,&ss2);
 }
 
 void PlayLayer::drawMatrix()
 {
     BaseObject bg;
     SDL_Rect bg_rect;
-    bg_rect={0,0,1600,900};
-    bg.LoadImg("img/background/bg1.png",renderer);
+    bg_rect={0,0,1880,1053};
+    bg.LoadImg("img/background/bg2.png",renderer);
     bg.Render(0,0,renderer,&bg_rect);
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
@@ -212,6 +212,6 @@ void PlayLayer::drawMatrix()
             else
             ss.LoadImg("img/Other/tile64_light.png",renderer);
                     if (square[x][y] >=0){
-            ss.Render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,renderer,&ss1);}
+            ss.Render((Esize)*(x)+430,(Esize)*(y)+10,renderer,&ss1);}
         }
 }
