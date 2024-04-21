@@ -93,26 +93,26 @@ const int RUNNING_FRAMES = 8;
 const int FLYING_FRAMES = 5;
 const int BACKGROUND_LAYER = 9;
 
-typedef struct Input
-{
-    int left_;
-    int right_;
-    int up_;
-    int down_;
-    int jump_;
-};
-
-typedef struct Map
-{
-    int start_x_;
-    int start_y_;
-
-    int max_x_;
-    int max_y_;
-
-    int tile[MAX_MAP_Y][MAX_MAP_X];
-    char* file_name_;
-};
+//typedef struct Input
+//{
+//    int left_;
+//    int right_;
+//    int up_;
+//    int down_;
+//    int jump_;
+//};
+//
+//typedef struct Map
+//{
+//    int start_x_;
+//    int start_y_;
+//
+//    int max_x_;
+//    int max_y_;
+//
+//    int tile[MAX_MAP_Y][MAX_MAP_X];
+//    char* file_name_;
+//};
 
 enum ButtonSprite
 {

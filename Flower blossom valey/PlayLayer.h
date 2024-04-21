@@ -26,6 +26,7 @@ class PlayLayer
     private:
         Texture* background;
         int **matrix;
+        int **square;
         int selectedX = -1;
         int selectedY = -1;
         int width;
@@ -37,6 +38,7 @@ class PlayLayer
         bool initMatrix();
 //        void findAndRemoveLines();
         bool createAndDropElement();
+        void drawMatrix();
 
        // SDL_Point positionOfItem(int row, int col);
 };

@@ -8,13 +8,13 @@ using namespace std;
 int target;
 int moves  ;
 int score;
-ifstream f("Level 1.txt");
+ifstream f("Level 2.txt");
 
 char element;
 void nhapfile()
 {
-     f >> moves >> target >> MATRIX_WIDTH >> MATRIX_HEIGHT;
-     cout << moves << " " << target << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
+    f >> moves >> target >> MATRIX_WIDTH >> MATRIX_HEIGHT;
+    cout << moves << " " << target << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
 }
 char elementCheck( int i )
 {
@@ -133,155 +133,164 @@ void getColChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
 
 void plain ( int** matrix,int i, int j, int& score)
 {
-    vector<pair<int,int>> colChainList;
-    vector<pair<int,int>> rowChainList;
-    getRowChain(i,j,rowChainList,matrix );
-    getColChain(i,j,colChainList,matrix);
-    int ColSize = colChainList.size();
-    int RowSize = rowChainList.size();
-    if ( RowSize >= 3 )
+    if ( matrix[i][j] >= 0)
     {
-        element = elementCheck(matrix[i][j]);
-        for (auto index : rowChainList )
+        vector<pair<int,int>> colChainList;
+        vector<pair<int,int>> rowChainList;
+        getRowChain(i,j,rowChainList,matrix );
+        getColChain(i,j,colChainList,matrix);
+        int ColSize = colChainList.size();
+        int RowSize = rowChainList.size();
+        if ( RowSize >= 3 )
         {
-            if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
+            element = elementCheck(matrix[i][j]);
+            for (auto index : rowChainList )
             {
-                for ( int x = -1 ; x <= 1 ; x++ )
-                    for ( int y = -1 ; y <= 1 ; y++ )
-                    {
-                        if ( matrix[index.first+x][index.second+y] > 10 )
+                if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
+                {
+                    for ( int x = -1 ; x <= 1 ; x++ )
+                        for ( int y = -1 ; y <= 1 ; y++ )
                         {
-                            matrix[index.first+x][index.second+y] -= 11;
+                            if ( matrix[index.first+x][index.second+y] > 10 )
+                            {
+                                matrix[index.first+x][index.second+y] -= 11;
+                            }
+                            else
+                            {
+                                if ( matrix[index.first+x][index.second+y] >= 0 )
+                                {
+                                    matrix[index.first+x][index.second+y] = -1;
+                                    scorer(element,1);
+                                }
+                            }
                         }
-                        else
-                        {
-                            matrix[index.first-1][index.second] = -1;
-                            matrix[index.first+1][index.second] = -1;
-                            matrix[index.first][index.second-1] = -1;
-                            matrix[index.first][index.second+1] = -1;
-                            matrix[index.first-1][index.second-1] = -1;
-                            matrix[index.first+1][index.second+1] = -1;
-                            matrix[index.first-1][index.second+1] = -1;
-                            matrix[index.first+1][index.second-1] = -1;
-                            matrix[index.first][index.second] = -1;
-                            scorer(element,6);
-                        }
-                    }
-            }
-            else
-            {
-                if ( matrix[index.first][index.second] > 10 )
-                    matrix[index.first][index.second] -= 11;
+                }
                 else
                 {
-                    matrix[index.first][index.second] = -1;
-                    scorer(element,1);
+                    if ( matrix[index.first][index.second] > 10 )
+                        matrix[index.first][index.second] -= 11;
+                    else
+                    {
+                        if ( matrix[index.first][index.second] >= 0 )
+                        {
+                            matrix[index.first][index.second] = -1;
+                            scorer(element,1);
+                        }
+                    }
+                }
+            }
+        }
+        if ( ColSize >= 3 )
+        {
+            element=elementCheck(matrix[i][j]);
+            for (auto index : colChainList )
+            {
+                if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
+                {
+                    for ( int x = -1 ; x <= 1 ; x++ )
+                        for ( int y = -1 ; y <= 1 ; y++ )
+                        {
+                            if ( matrix[index.first+x][index.second+y] > 10 )
+                            {
+                                matrix[index.first+x][index.second+y] -= 11;
+                            }
+                            else
+                            {
+                                if ( matrix[index.first+x][index.second+y] >= 0 )
+                                {
+                                    matrix[index.first+x][index.second+y] =-1;
+                                    scorer(element,1);
+                                }
+                            }
+                        }
+                }
+                else
+                {
+                    if ( matrix[index.first][index.second] > 10 )
+                        matrix[index.first][index.second] -= 11;
+                    else
+                    {
+                        if (matrix[index.first][index.second] >= 0)
+                        {
+                            matrix[index.first][index.second] = -1;
+                            scorer(element,1);
+                        }
+                    }
                 }
             }
         }
     }
-    if ( ColSize >= 3 )
-    {
-        for (auto index : colChainList )
-        {
-            if ( matrix[index.first][index.second] >= 5 && matrix[index.first][index.second] < 10 )
-            {
-                for ( int x = -1 ; x <= 1 ; x++ )
-                    for ( int y = -1 ; y <= 1 ; y++ )
-                    {
-                        if ( matrix[index.first+x][index.second+y] > 10 )
-                        {
-                            matrix[index.first+x][index.second+y] -= 11;
-                        }
-                        else
-                        {
-                            matrix[index.first-1][index.second] = -1;
-                            matrix[index.first+1][index.second] = -1;
-                            matrix[index.first][index.second-1] = -1;
-                            matrix[index.first][index.second+1] = -1;
-                            matrix[index.first-1][index.second-1] = -1;
-                            matrix[index.first+1][index.second+1] = -1;
-                            matrix[index.first-1][index.second+1] = -1;
-                            matrix[index.first+1][index.second-1] = -1;
-                            matrix[index.first][index.second] = -1;
-                            scorer(element,6);
-                        }
-                    }
-            }
-            else
-            {
-                if ( matrix[index.first][index.second] > 10 )
-                    matrix[index.first][index.second] -= 11;
-                else
-                {
-                    matrix[index.first][index.second] = -1;
-                    scorer(element,1);
-                }
-            }
-        }
-    }
+    else return;
 }
 
 
 void stripes ( int** matrix, int i, int j )
 {
-    element = elementCheck(matrix[i][j]);
-    int temp = matrix[i][j];
-    vector<pair<int,int>> colChainList;
-    vector<pair<int,int>> rowChainList;
-    getRowChain(i,j,rowChainList,matrix );
-    getColChain(i,j,colChainList,matrix);
-    int ColSize = colChainList.size();
-    int RowSize = rowChainList.size();
-    if ( ColSize >= 3 && RowSize >= 3 )
+    if ( matrix[i][j] >= 0 )
     {
-        for ( auto index : rowChainList )
+        element = elementCheck(matrix[i][j]);
+        int temp = matrix[i][j];
+        vector<pair<int,int>> colChainList;
+        vector<pair<int,int>> rowChainList;
+        getRowChain(i,j,rowChainList,matrix );
+        getColChain(i,j,colChainList,matrix);
+        int ColSize = colChainList.size();
+        int RowSize = rowChainList.size();
+        if ( ColSize >= 3 && RowSize >= 3 )
         {
-            if (matrix[index.first][index.second] > 10 )
-                matrix[index.first][index.second] -= 11;
-            else
+            for ( auto index : rowChainList )
+            {
+                if (matrix[index.first][index.second] > 10 )
+                    matrix[index.first][index.second] -= 11;
+                else
+                    matrix[index.first][index.second] = -1;
+            }
+            for ( auto index : colChainList )
+            {
                 matrix[index.first][index.second] = -1;
+            }
+            scorer(element,ColSize+RowSize-1);
+            matrix[i][j] = temp + 5;
         }
-        for ( auto index : colChainList )
-        {
-            matrix[index.first][index.second] = -1;
-        }
-        scorer(element,ColSize+RowSize-1);
-        matrix[i][j] = temp + 5;
     }
+    else return;
 }
 
 void bee ( int** matrix, int i, int j )
 {
-    element = elementCheck(matrix[i][j]);
-    vector<pair<int,int>> colChainList;
-    vector<pair<int,int>> rowChainList;
-    getRowChain(i,j,rowChainList,matrix );
-    getColChain(i,j,colChainList,matrix);
-    int ColSize = colChainList.size();
-    int RowSize = rowChainList.size();
-    if ( ColSize >= 5 )
+    if ( matrix[i][j] > 0 )
     {
-        for ( auto index : colChainList )
+        element = elementCheck(matrix[i][j]);
+        vector<pair<int,int>> colChainList;
+        vector<pair<int,int>> rowChainList;
+        getRowChain(i,j,rowChainList,matrix );
+        getColChain(i,j,colChainList,matrix);
+        int ColSize = colChainList.size();
+        int RowSize = rowChainList.size();
+        if ( ColSize >= 5 )
         {
-            matrix[index.first][index.second] = -1;
-            cout << index.first << " " << index.second << endl;
+            for ( auto index : colChainList )
+            {
+                matrix[index.first][index.second] = -1;
+                cout << index.first << " " << index.second << endl;
 
+            }
+            scorer(element,ColSize);
+            matrix[i][j] = 10;
         }
-        scorer(element,ColSize);
-        matrix[i][j] = 10;
-    }
-    if ( RowSize >= 5 )
-    {
-        for ( auto index : rowChainList )
+        if ( RowSize >= 5 )
         {
-            matrix[index.first][index.second] = -1;
-            cout << index.first << " " << index.second << endl;
+            for ( auto index : rowChainList )
+            {
+                matrix[index.first][index.second] = -1;
+                cout << index.first << " " << index.second << endl;
 
+            }
+            scorer(element,RowSize);
+            matrix[i][j]=10;
         }
-        scorer(element,RowSize);
-        matrix[i][j]=10;
     }
+    else return;
 }
 
 void beeplain( int** matrix, int i, int j, int selectedX, int selectedY )
@@ -333,10 +342,13 @@ void stripes2 ( int** matrix, int i, int j, int selectedX, int selecttedY )
         for ( int x = -2 ; x <= 1 ; x++)
             for ( int y = -2; y <= 1 ; y++ )
             {
-                scorer(elementCheck(matrix[i+x][j+y]),1);
-                scorer(elementCheck(matrix[selectedX+x][selecttedY+y]),1);
-                matrix[i+x][j+y] = -1;
-                matrix[selectedX+x][selecttedY+y] = -1;
+                if ( matrix[i+x][j+y] >= 0 && matrix[selectedX+x][selecttedY+y]>= 0)
+                {
+                    scorer(elementCheck(matrix[i+x][j+y]),1);
+                    scorer(elementCheck(matrix[selectedX+x][selecttedY+y]),1);
+                    matrix[i+x][j+y] = -1;
+                    matrix[selectedX+x][selecttedY+y] = -1;
+                }
             }
     }
 }

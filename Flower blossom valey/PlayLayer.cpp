@@ -18,6 +18,9 @@ void PlayLayer::createMatrix(int width, int height)
     matrix = new int*[width];
     for ( int i=0 ; i < width ; i++ )
         matrix[i] = new int[height];
+    square = new int*[width];
+    for ( int i = 0 ; i < width ; i++ )
+        square[i] = new int[height];
 }
 
 bool PlayLayer::init()
@@ -27,8 +30,8 @@ bool PlayLayer::init()
     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
         {
-            f >> matrix[i][j];
-            cout << matrix[i][j];
+            f >> matrix[j][i];
+            square[j][i]= matrix[j][i];
 //            matrix[i][j] = rand()%5;
         }
     return true;
@@ -40,6 +43,8 @@ int PlayLayer::exec()
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
     {
+        SDL_RenderClear(renderer);
+        drawMatrix();
         SDL_Event e;
         if ( SDL_PollEvent(&e) )
         {
@@ -50,7 +55,7 @@ int PlayLayer::exec()
                 auto x = (e.button.x-530) / (Esize+7);
                 auto y = (e.button.y-200) / (Esize+7);
                 if (selectedX >= 0 && selectedY >= 0 &&
-                        ((abs(x - selectedX) == 1 && y == selectedY) || (abs(y - selectedY) == 1 && x == selectedX)))
+                        ((abs(x - selectedX) == 1 && y == selectedY) || (abs(y - selectedY) == 1 && x == selectedX))&&matrix[selectedX][selectedY] >=0)
                 {
                     std::swap(matrix[x][y], matrix[selectedX][selectedY]);
                     bee2(matrix, x, y, selectedX,selectedY);
@@ -83,7 +88,6 @@ int PlayLayer::exec()
             if (!tick())
                 return 1;
         oldTick = currentTick;
-        SDL_RenderClear(renderer);
         if ( moves < 18 )
         draw();
         else
@@ -127,40 +131,28 @@ bool PlayLayer::createAndDropElement()
     {
         for (auto x = 0; x < MATRIX_WIDTH; ++x)
         {
-            if (matrix[x][y] != -1 && matrix[x][y + 1] == -1)
+            if (matrix[x][y] >= 0 && matrix[x][y + 1] == -1)
             {
                 for (auto yy = y; yy >= 0; --yy)
-                    matrix[x][yy + 1] = matrix[x][yy];
+                {
+                    if ( matrix[x][yy+1] != -10 && matrix[x][yy] != -10 )
+                    {matrix[x][yy + 1] = matrix[x][yy];
                 matrix[x][0] = -1;
-                hasHoles = true;
+                hasHoles = true;}
+                }
             }
         }
     }
     for (auto x = 0; x < MATRIX_WIDTH; ++x)
-        if (matrix[x][0] == -1)
-            matrix[x][0] = rand() % 5;
+        for ( auto y = 0 ; y < MATRIX_HEIGHT ; ++y )
+        if (matrix[x][y] == -1)
+            matrix[x][y] = rand() % 5;
     return hasHoles;
 
 }
 
 void PlayLayer::draw()
 {
-    BaseObject bg;
-    SDL_Rect bg_rect;
-    bg_rect={0,0,1600,900};
-    bg.LoadImg("img/background/bg1.png",renderer);
-    bg.Render(0,0,renderer,&bg_rect);
-    for (int x = 0; x < MATRIX_WIDTH; ++x)
-        for (int y = 0; y < MATRIX_HEIGHT; ++y)
-        {
-            BaseObject ss;
-            SDL_Rect ss1={0,0,112,112};
-            if ( (x+y) %2 == 0)
-            ss.LoadImg("img/Other/tile64_dark.png",renderer);
-            else
-            ss.LoadImg("img/Other/tile64_light.png",renderer);
-            ss.Render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,renderer,&ss1);
-        }
 
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
@@ -201,4 +193,25 @@ void PlayLayer::draw()
     string s = std::to_string(moves);
     Move.LoadFromRenderedText(s,font,textColor,renderer);
     Move.Render(150,370,renderer,&ss2);
+}
+
+void PlayLayer::drawMatrix()
+{
+    BaseObject bg;
+    SDL_Rect bg_rect;
+    bg_rect={0,0,1600,900};
+    bg.LoadImg("img/background/bg1.png",renderer);
+    bg.Render(0,0,renderer,&bg_rect);
+    for (int x = 0; x < MATRIX_WIDTH; ++x)
+        for (int y = 0; y < MATRIX_HEIGHT; ++y)
+        {
+            BaseObject ss;
+            SDL_Rect ss1={0,0,112,112};
+            if ( (x+y) %2 == 0)
+            ss.LoadImg("img/Other/tile64_dark.png",renderer);
+            else
+            ss.LoadImg("img/Other/tile64_light.png",renderer);
+                    if (square[x][y] >=0){
+            ss.Render((Esize)*(x)+530+7*x,(Esize)*(y)+200+7*y,renderer,&ss1);}
+        }
 }
