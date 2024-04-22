@@ -91,3 +91,8 @@ bool BaseObject::LoadFromRenderedText(std::string textureText, TTF_Font *gFont, 
 
     return p_object_ != NULL;
 }
+
+void BaseObject::destroy()
+{
+    SDL_DestroyTexture(p_object_);
+}

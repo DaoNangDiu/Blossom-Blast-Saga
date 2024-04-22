@@ -18,7 +18,7 @@ public:
 
     int GetWidth();
     int GetHeight();
-
+    void destroy();
 protected:
     SDL_Texture* p_object_;
 

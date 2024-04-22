@@ -131,7 +131,7 @@ void getColChain(int i, int j, vector<pair<int,int>> &chainList, int** matrix)
     }
 }
 
-void plain ( int** matrix,int i, int j, int& score)
+void plain ( int** matrix,int i, int j)
 {
     if ( matrix[i][j] >= 0)
     {
