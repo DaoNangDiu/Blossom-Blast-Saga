@@ -56,17 +56,140 @@
 //}
 
 
-void HandlePlayButton(SDL_Event* e,
-                      Button& PlayButton,
-                      bool& QuitMenu,
-                      bool& Play,
-                      Mix_Chunk* gClick)
+//void HandlePlayButton(SDL_Event* e,
+//                      Button& PlayButton,
+//                      bool& QuitMenu,
+//                      bool& Play,
+//                      Mix_Chunk* gClick)
+//{
+//    if (e->type == SDL_QUIT)
+//    {
+//        QuitMenu = true;
+//    }
+//
+//    if (PlayButton.IsInside(e, COMMON_BUTTON))
+//    {
+//        switch (e->type)
+//        {
+//        case SDL_MOUSEMOTION:
+//            PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+//            break;
+//        case SDL_MOUSEBUTTONDOWN:
+//            Play = true;
+//            QuitMenu = true;
+//            Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+//            PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+//            break;
+//        }
+//    }
+//    else
+//    {
+//        PlayButton.currentSprite = BUTTON_MOUSE_OUT;
+//    }
+//}
+
+//void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevelButton)[BUTTON_TOTAL],
+//                      Button& PlayButton, Button& BackButton, Button& LevelButton,
+//                      BaseObject& gBackButtonTexture, BaseObject& gLevelButtonTexture,
+//                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick, bool& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture)
+//{
+//    if ( e->type == SDL_QUIT )
+//    {
+//        Quit_Menu = true;
+//    }
+//    if (PlayButton.IsInside(e, COMMON_BUTTON))
+//    {
+//        switch (e->type)
+//        {
+//        case SDL_MOUSEMOTION:
+//            PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+//            break;
+//        case SDL_MOUSEBUTTONDOWN:
+//            Quit_Menu = true;
+//
+//            PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+//            Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+//
+//            bool ReadDone = false;
+//            while (!ReadDone)
+//            {
+//                do
+//                {
+//                    if (e->type == SDL_QUIT)
+//                    {
+//                        ReadDone = true;
+//                        Quit_Menu = true;
+//                        close();
+//                    }
+//                    else if (BackButton.IsInside(e, COMMON_BUTTON))
+//                    {
+//                        switch (e->type)
+//                        {
+//                        case SDL_MOUSEMOTION:
+//                            BackButton.currentSprite = BUTTON_MOUSE_OVER;
+//                            break;
+//                        case SDL_MOUSEBUTTONDOWN:
+//                            Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+//                            BackButton.currentSprite = BUTTON_MOUSE_OVER;
+//                            ReadDone = true;
+//                            break;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        BackButton.currentSprite = BUTTON_MOUSE_OUT;
+//                        if (LevelButton.IsInside(e, COMMON_BUTTON))
+//                        {
+//                            switch (e->type)
+//                            {
+//                            case SDL_MOUSEMOTION:
+//                                LevelButton.currentSprite = BUTTON_MOUSE_OVER;
+//                                break;
+//                            case SDL_MOUSEBUTTONDOWN:
+//                                PlayLevel = true;
+//                                Quit_MenuLevel = true;
+//                                Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+//                                LevelButton.currentSprite = BUTTON_MOUSE_OVER;
+//                                break;
+//                            }
+//                        }
+//                        else
+//                        {
+//                            LevelButton.currentSprite = BUTTON_MOUSE_OUT;
+//                        }
+//                }
+//                    SDL_RenderClear(gRenderer);
+//                    gLevelMenuTexture.Render(0,0,gRenderer);
+//                    SDL_Rect* currentClip_Level = &gLevelButton[LevelButton.currentSprite];
+//                    LevelButton.Render(currentClip_Level, gRenderer, gLevelButtonTexture);
+//                    SDL_Rect* currentClip_Back = &gBackButton[BackButton.currentSprite];
+//                    BackButton.Render(currentClip_Back, gRenderer, gBackButtonTexture);
+//                    SDL_RenderPresent(gRenderer);
+//
+//                }
+//                while (SDL_PollEvent(e) != 0 && (e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEMOTION));
+//            }
+//            break;
+//        }
+//    }
+//    else
+//    {
+//        PlayButton.currentSprite = BUTTON_MOUSE_OUT;
+//    }
+//}
+void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevelButton)[BUTTON_TOTAL],
+                      Button& PlayButton, Button& BackButton, Button& LevelButton,
+                      BaseObject& gBackButtonTexture, BaseObject& gLevelButtonTexture,
+                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick, bool& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture)
 {
+    // Check for quit event
     if (e->type == SDL_QUIT)
     {
-        QuitMenu = true;
+        Quit_Menu = true;
+        return;
     }
 
+    // Check for mouse events on play button
     if (PlayButton.IsInside(e, COMMON_BUTTON))
     {
         switch (e->type)
@@ -75,10 +198,57 @@ void HandlePlayButton(SDL_Event* e,
             PlayButton.currentSprite = BUTTON_MOUSE_OVER;
             break;
         case SDL_MOUSEBUTTONDOWN:
-            Play = true;
-            QuitMenu = true;
-            Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+            // Play button clicked
+            //Quit_Menu = true;
             PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+            Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+
+            bool ReadDone = false;
+            while (!ReadDone)
+            {
+                // Handle events inside the loop
+                SDL_PollEvent(e);
+                switch (e->type)
+                {
+                case SDL_QUIT:
+                    Quit_MenuLevel = true;
+                    close();
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    // Check if back button is clicked
+                    if (BackButton.IsInside(e, COMMON_BUTTON))
+                    {
+                        Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+                        BackButton.currentSprite = BUTTON_MOUSE_OVER;
+                        ReadDone = true;
+                    }
+                    // Check if level button is clicked
+                    else if (LevelButton.IsInside(e, COMMON_BUTTON))
+                    {
+                        PlayLevel = true;
+                        //Quit_MenuLevel = true;
+                        Quit_Menu = 1;
+                        ReadDone = true;
+                        Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+                        LevelButton.currentSprite = BUTTON_MOUSE_OVER;
+                        break;
+                    }
+                    break;
+                case SDL_MOUSEMOTION:
+                    BackButton.currentSprite = BUTTON_MOUSE_OUT;
+                    LevelButton.currentSprite = BUTTON_MOUSE_OUT;
+                    break;
+                default:
+                    break;
+                }
+
+                // Render menu
+                SDL_RenderClear(gRenderer);
+                gLevelMenuTexture.Render(0,0,gRenderer);
+                BackButton.Render(&gBackButton[BackButton.currentSprite], gRenderer, gBackButtonTexture);
+                LevelButton.Render(&gLevelButton[LevelButton.currentSprite], gRenderer, gLevelButtonTexture);
+                SDL_RenderPresent(gRenderer);
+            }
             break;
         }
     }
@@ -87,6 +257,7 @@ void HandlePlayButton(SDL_Event* e,
         PlayButton.currentSprite = BUTTON_MOUSE_OUT;
     }
 }
+
 
 void HandleHelpButton(SDL_Event* e,
                       SDL_Rect(&gBackButton)[BUTTON_TOTAL],
@@ -183,74 +354,3 @@ void HandleExitButton(SDL_Event* e,
         ExitButton.currentSprite = BUTTON_MOUSE_OUT;
     }
 }
-
-//void DrawPlayerScore(BaseObject gTextTexture,
-//                     BaseObject gScoreTexture,
-//                     SDL_Color textColor,
-//                     SDL_Renderer *gRenderer,
-//                     TTF_Font *gFont,
-//                     const int& score)
-//{
-//
-//    gTextTexture.Render(TEXT_1_POSX, TEXT_1_POSY,gRenderer);
-//    if (gScoreTexture.LoadFromRenderedText(std::to_string(score), gFont, textColor, gRenderer))
-//    {
-//
-//        gScoreTexture.Render(SCORE_POSX, SCORE_POSY,gRenderer);
-//    }
-//}
-
-//void DrawPlayerHighScore(BaseObject gTextTexture,
-//                         BaseObject gHighScoreTexture,
-//                         SDL_Color textColor,
-//                         SDL_Renderer* gRenderer,
-//                         TTF_Font* gFont,
-//                         const std::string& HighScore)
-//{
-//
-//    gTextTexture.Render(TEXT_2_POSX, TEXT_2_POSY, gRenderer);
-//    if (gHighScoreTexture.LoadFromRenderedText(HighScore, gFont, textColor, gRenderer))
-//    {
-//
-//        gHighScoreTexture.Render(HIGH_SCORE_POSX, HIGH_SCORE_POSY,gRenderer);
-//    }
-//}
-
-//void DrawEndGameSelection(BaseObject gLoseTexture,
-//                          SDL_Event *e,
-//                          SDL_Renderer *gRenderer,
-//                          bool &Play_Again)
-//{
-//    if (Play_Again)
-//    {
-//        bool End_Game = false;
-//        while (!End_Game)
-//        {
-//            while (SDL_PollEvent(e) != 0)
-//            {
-//                if (e->type == SDL_QUIT)
-//                {
-//                    Play_Again = false;
-//                }
-//
-//                if (e->type == SDL_KEYDOWN)
-//                {
-//                    switch (e->key.keysym.sym)
-//                    {
-//                    case SDLK_SPACE:
-//                        End_Game = true;
-//                        break;
-//                    case SDLK_ESCAPE:
-//                        End_Game = true;
-//                        Play_Again = false;
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            gLoseTexture.Render(0,0,gRenderer);
-//
-//            SDL_RenderPresent(gRenderer);
-//        }
-//    }
-//}

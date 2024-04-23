@@ -27,12 +27,10 @@ SDL_Rect gBackButton[BUTTON_TOTAL];
 SDL_Rect gPauseButton[BUTTON_TOTAL];
 SDL_Rect gContinueButton[BUTTON_TOTAL];
 SDL_Rect gPlayAgainButton[BUTTON_TOTAL];
-SDL_Rect gCharacterClips[RUNNING_FRAMES];
-SDL_Rect gEnemyClips[FLYING_FRAMES];
+SDL_Rect gLevelButton[BUTTON_TOTAL];
 
 BaseObject gMenuTexture;
 BaseObject gInstructionTexture;
-BaseObject gBackgroundTexture[BACKGROUND_LAYER];
 BaseObject gCharacterTexture;
 BaseObject gGroundTexture;
 BaseObject gPlayButtonTexture;
@@ -46,14 +44,14 @@ BaseObject gText1Texture;
 BaseObject gScoreTexture;
 BaseObject gText2Texture;
 BaseObject gHighScoreTexture;
+BaseObject gLevelButtonTexture;
+BaseObject gLevelMenuTexture;
 
 Button PlayButton(PLAY_BUTON_POSX, PLAY_BUTTON_POSY);
 Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
 Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
 Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
-Button PauseButton(PAUSE_BUTTON_POSX, PAUSE_BUTTON_POSY);
-Button ContinueButton(CONTINUE_BUTTON_POSX, CONTINUE_BUTTON_POSY);
-
+Button LevelButton (LEVEL_BUTTON_POSX, LEVEL_BUTTON_POSY);
 bool InitData()
 {
     bool success = true;
@@ -111,6 +109,7 @@ void close()
     gExitButtonTexture.Free();
     gBackButtonTexture.Free();
     gPauseButtonTexture.Free();
+    gLevelButtonTexture.Free();
     gContinueButtonTexture.Free();
     gLoseTexture.Free();
     gText1Texture.Free();
@@ -147,8 +146,9 @@ int main(int argc, char* argv[])
     if (LoadMedia() == false)
         return -1;
     bool Quit_Menu = false;
-    bool Play_Again = false;
+  //  bool Play_Again = false;
     bool Quit_Play = false;
+                bool PlayLevel = false;
     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
     while (!Quit_Menu)
     {
@@ -162,7 +162,12 @@ int main(int argc, char* argv[])
             }
 
             bool Quit_Game = false;
-            HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
+            //   HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
+            HandlePlayButton(&e_mouse, gBackButton,gLevelButton,
+                             PlayButton, BackButton, LevelButton,
+                             gBackButtonTexture, gLevelButtonTexture,
+                             g_screen, Quit_Game, gClick, PlayLevel,Quit_Menu,gLevelMenuTexture);
+                             if (Quit_Menu == 1 ) break;
 
             HandleHelpButton(&e_mouse, gBackButton,
                              HelpButton, BackButton,
@@ -171,11 +176,14 @@ int main(int argc, char* argv[])
 
             HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
 
-            if (Quit_Game == true)
+//            cout << Quit_Menu << '\n';
+//            cout << PlayLevel << '\n';
+            if (Quit_Menu == true)
             {
-                return 0;
+                break;
             }
         }
+                             if (Quit_Menu == 1 ) break;
 
         gMenuTexture.Render(0,0,g_screen);
 
@@ -193,7 +201,7 @@ int main(int argc, char* argv[])
         SDL_RenderPresent(g_screen);
     }
 
-    while(Play_Again)
+    while(PlayLevel)
     {
         srand(time(NULL));
         bool is_quit = false;
@@ -207,14 +215,14 @@ int main(int argc, char* argv[])
                     if (g_event.type == SDL_QUIT)
                     {
                         is_quit = true;
-                        Play_Again = false;
+                        PlayLevel = false;
                     }
 
 
                 }
 
 //                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-               SDL_RenderClear(g_screen);
+                SDL_RenderClear(g_screen);
 //
 //                g_background.Render(0,0,g_screen, NULL);
 
@@ -226,13 +234,13 @@ int main(int argc, char* argv[])
                 }
 
                 playLayer.exec();
-                          SDL_RenderPresent(g_screen);
+                SDL_RenderPresent(g_screen);
 
 
             }
 
 
-            if (!Play_Again)
+//            if (!Play_Again)
             {
 
             }
@@ -317,6 +325,12 @@ bool LoadMedia()
                 success = false;
             }
 
+            if (!gLevelMenuTexture.LoadImg("img/background/bg1.png", g_screen))
+            {
+                std::cout << "Failed to load instruction image" << std::endl;
+                success = false;
+            }
+
             if (!gPlayButtonTexture.LoadImg("img/button/big_button/play_button.png", g_screen))
             {
                 std::cout << "Failed to load play_button image" << std::endl;
@@ -333,6 +347,21 @@ bool LoadMedia()
                 }
             }
 
+            if (!gLevelButtonTexture.LoadImg("img/button/big_button/level1.png", g_screen))
+            {
+                std::cout << "Failed to load play_button image" << std::endl;
+                success = false;
+            }
+            else
+            {
+                for (int i = 0; i < BUTTON_TOTAL; ++i)
+                {
+                    gLevelButton[i].x = 150 * i;
+                    gLevelButton[i].y = 0;
+                    gLevelButton[i].w = 150;
+                    gLevelButton[i].h = 98;
+                }
+            }
             if (!gHelpButtonTexture.LoadImg("img/button/big_button/help_button.png", g_screen))
             {
                 std::cout << "Failed to load help_button image" << std::endl;

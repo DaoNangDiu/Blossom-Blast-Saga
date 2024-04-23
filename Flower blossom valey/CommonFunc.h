@@ -59,7 +59,6 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define SMALL_BUTTON 1
 #define COMMON_BUTTON 2
 
-const std::string WINDOW_TITLE = "Dino in jungle";
 
 const int COMMON_BUTTON_WIDTH = 150;
 const int COMMON_BUTTON_HEIGHT = 98;
@@ -74,10 +73,12 @@ const int EXIT_BUTTON_POSX = 725;
 const int EXIT_BUTTON_POSY = 709;
 const int BACK_BUTTON_POSX = 170;
 const int BACK_BUTTON_POSY = 630;
-const int PAUSE_BUTTON_POSX = 31;
-const int PAUSE_BUTTON_POSY = 29;
-const int CONTINUE_BUTTON_POSX = 31;
-const int CONTINUE_BUTTON_POSY = 29;
+const int LEVEL_BUTTON_POSX = 905;
+const int LEVEL_BUTTON_POSY = 605;
+//const int PAUSE_BUTTON_POSX = 31;
+//const int PAUSE_BUTTON_POSY = 29;
+//const int CONTINUE_BUTTON_POSX = 31;
+//const int CONTINUE_BUTTON_POSY = 29;
 
 const int TEXT_1_POSX = 670;
 const int TEXT_1_POSY = 20;
@@ -89,9 +90,9 @@ const int HIGH_SCORE_POSX = 830;
 const int HIGH_SCORE_POSY = 80;
 
 
-const int RUNNING_FRAMES = 8;
-const int FLYING_FRAMES = 5;
-const int BACKGROUND_LAYER = 9;
+//const int RUNNING_FRAMES = 8;
+//const int FLYING_FRAMES = 5;
+//const int BACKGROUND_LAYER = 9;
 
 //typedef struct Input
 //{

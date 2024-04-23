@@ -8,11 +8,11 @@ bool InitData();
 bool LoadMedia();
 void close();
 
-void HandlePlayButton(SDL_Event* e,
-    Button& PlayButton,
-    bool& QuitMenu,
-    bool& Play,
-    Mix_Chunk* gClick);
+//void HandlePlayButton(SDL_Event* e,
+//    Button& PlayButton,
+//    bool& QuitMenu,
+//    bool& Play,
+//    Mix_Chunk* gClick);
 
 void HandleHelpButton(SDL_Event* e,
     SDL_Rect(&gBackButton)[BUTTON_TOTAL],
@@ -35,7 +35,10 @@ void HandleContinueButton(Button ContinueButton,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],
     bool& Game_State, Mix_Chunk* gClick);
-
+void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevelButton)[BUTTON_TOTAL],
+                      Button& PlayButton, Button& BackButton, Button& LevelButton,
+                      BaseObject& gBackButtonTexture, BaseObject& gLevelButtonTexture,
+                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick, bool& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture);
 void HandlePauseButton(SDL_Event* e,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],
@@ -45,8 +48,6 @@ void HandlePauseButton(SDL_Event* e,
     bool& game_state,
     Mix_Chunk* gClick);
 
-void HandleBackButton ( SDL_Event* e, SDL_Renderer *renderer, SDL_Rect (&gBackButton)[BUTTON_TOTAL],
-                           Button& BackMenuButton, Texture BackMenuTexture);
 void DrawEndGameSelection(BaseObject gLoseTexture,
     SDL_Event* e,
     SDL_Renderer* gRenderer,
