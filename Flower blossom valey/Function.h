@@ -8,11 +8,18 @@ using namespace std;
 int target;
 int moves  ;
 int score;
-ifstream f("Level 1.txt");
-
-char element;
-void nhapfile()
+ifstream f;
+string filename[]=
 {
+    "Level 1.txt",
+    "Level 2.txt",
+    "Level 3.txt",
+    "Level 4.txt"
+};
+char element;
+void nhapfile( int i )
+{
+    f.open(filename[i-1]);
     f >> moves >> target >> MATRIX_WIDTH >> MATRIX_HEIGHT;
     cout << moves << " " << target << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
 }

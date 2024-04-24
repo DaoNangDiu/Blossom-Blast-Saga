@@ -14,10 +14,10 @@ class PlayLayer
     public:
         PlayLayer(SDL_Renderer* renderer);
         ~PlayLayer();
-        int exec();
+        int exec( int i);
         bool tick();
         void draw();
-        bool init();
+        bool init(int i);
         //void update();
         //void render();
         static SDL_Renderer* renderer;

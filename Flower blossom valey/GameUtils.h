@@ -35,10 +35,18 @@ void HandleContinueButton(Button ContinueButton,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],
     bool& Game_State, Mix_Chunk* gClick);
-void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevelButton)[BUTTON_TOTAL],
-                      Button& PlayButton, Button& BackButton, Button& LevelButton,
-                      BaseObject& gBackButtonTexture, BaseObject& gLevelButtonTexture,
-                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick, bool& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture);
+//void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevelButton)[BUTTON_TOTAL],
+//                      Button& PlayButton, Button& BackButton, Button& LevelButton,
+//                      BaseObject& gBackButtonTexture, BaseObject& gLevelButtonTexture,
+//                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick, bool& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture);
+void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevel1Button)[BUTTON_TOTAL], SDL_Rect (&gLevel2Button)[BUTTON_TOTAL],
+                      SDL_Rect (&gLevel3Button)[BUTTON_TOTAL], SDL_Rect (&gLevel4Button)[BUTTON_TOTAL],
+                      Button& PlayButton, Button& BackButton, Button& Level1Button,
+                      Button& Level2Button, Button& Level3Button, Button& Level4Button,
+                      BaseObject& gBackButtonTexture, BaseObject& gLevel1ButtonTexture,
+                      BaseObject& gLevel2ButtonTexture, BaseObject& gLevel3ButtonTexture, BaseObject& gLevel4ButtonTexture,
+                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick,
+                      int& PlayLevel,bool& Quit_Menu, BaseObject& gLevelMenuTexture);
 void HandlePauseButton(SDL_Event* e,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],

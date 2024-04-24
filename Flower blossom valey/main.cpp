@@ -27,7 +27,10 @@ SDL_Rect gBackButton[BUTTON_TOTAL];
 SDL_Rect gPauseButton[BUTTON_TOTAL];
 SDL_Rect gContinueButton[BUTTON_TOTAL];
 SDL_Rect gPlayAgainButton[BUTTON_TOTAL];
-SDL_Rect gLevelButton[BUTTON_TOTAL];
+SDL_Rect gLevel1Button[BUTTON_TOTAL];
+SDL_Rect gLevel2Button[BUTTON_TOTAL];
+SDL_Rect gLevel3Button[BUTTON_TOTAL];
+SDL_Rect gLevel4Button[BUTTON_TOTAL];
 
 BaseObject gMenuTexture;
 BaseObject gInstructionTexture;
@@ -44,14 +47,21 @@ BaseObject gText1Texture;
 BaseObject gScoreTexture;
 BaseObject gText2Texture;
 BaseObject gHighScoreTexture;
-BaseObject gLevelButtonTexture;
+BaseObject gLevel1ButtonTexture;
+BaseObject gLevel2ButtonTexture;
+BaseObject gLevel3ButtonTexture;
+BaseObject gLevel4ButtonTexture;
 BaseObject gLevelMenuTexture;
 
 Button PlayButton(PLAY_BUTON_POSX, PLAY_BUTTON_POSY);
 Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
 Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
 Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
-Button LevelButton (LEVEL_BUTTON_POSX, LEVEL_BUTTON_POSY);
+Button Level1Button (LEVEL1_BUTTON_POSX, LEVEL1_BUTTON_POSY);
+Button Level2Button (LEVEL2_BUTTON_POSX, LEVEL2_BUTTON_POSY);
+Button Level3Button (LEVEL3_BUTTON_POSX, LEVEL3_BUTTON_POSY);
+Button Level4Button (LEVEL4_BUTTON_POSX, LEVEL4_BUTTON_POSY);
+
 bool InitData()
 {
     bool success = true;
@@ -109,7 +119,10 @@ void close()
     gExitButtonTexture.Free();
     gBackButtonTexture.Free();
     gPauseButtonTexture.Free();
-    gLevelButtonTexture.Free();
+    gLevel1ButtonTexture.Free();
+    gLevel2ButtonTexture.Free();
+    gLevel3ButtonTexture.Free();
+    gLevel4ButtonTexture.Free();
     gContinueButtonTexture.Free();
     gLoseTexture.Free();
     gText1Texture.Free();
@@ -150,7 +163,8 @@ int main(int argc, char* argv[])
     bool Quit_Menu = false;
     //  bool Play_Again = false;
     bool Quit_Play = false;
-    bool PlayLevel = false;
+    int PlayLevel = 0;
+
     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
     while (!Quit_Menu)
     {
@@ -165,10 +179,10 @@ int main(int argc, char* argv[])
 
             bool Quit_Game = false;
             //   HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
-            HandlePlayButton(&e_mouse, gBackButton,gLevelButton,
-                             PlayButton, BackButton, LevelButton,
-                             gBackButtonTexture, gLevelButtonTexture,
-                             g_screen, Quit_Game, gClick, PlayLevel,Quit_Menu,gLevelMenuTexture);
+            HandlePlayButton(&e_mouse, gBackButton,gLevel1Button, gLevel2Button, gLevel3Button, gLevel4Button,
+                             PlayButton, BackButton, Level1Button, Level2Button, Level3Button, Level4Button,
+                             gBackButtonTexture, gLevel1ButtonTexture, gLevel2ButtonTexture, gLevel3ButtonTexture, gLevel4ButtonTexture,
+                             g_screen, Quit_Game, gClick, PlayLevel, Quit_Menu,gLevelMenuTexture);
             if (Quit_Menu == 1 ) break;
 
             HandleHelpButton(&e_mouse, gBackButton,
@@ -203,7 +217,8 @@ int main(int argc, char* argv[])
         SDL_RenderPresent(g_screen);
     }
 
-    while(PlayLevel)
+
+while(PlayLevel != 0)
     {
         srand(time(NULL));
         bool is_quit = false;
@@ -217,7 +232,7 @@ int main(int argc, char* argv[])
                     if (g_event.type == SDL_QUIT)
                     {
                         is_quit = true;
-                        PlayLevel = false;
+                        PlayLevel = 0;
                     }
 
 
@@ -229,13 +244,13 @@ int main(int argc, char* argv[])
 //                g_background.Render(0,0,g_screen, NULL);
 
                 PlayLayer playLayer(g_screen);
-                if (!playLayer.init())
+                if (!playLayer.init(PlayLevel))
                 {
                     printf("Failed to initialize PlayLayer.\n");
                     return false;
                 }
 
-                playLayer.exec();
+                playLayer.exec(PlayLevel);
                 SDL_RenderPresent(g_screen);
 
 
@@ -349,7 +364,7 @@ bool LoadMedia()
                 }
             }
 
-            if (!gLevelButtonTexture.LoadImg("img/button/big_button/1.png", g_screen))
+            if (!gLevel1ButtonTexture.LoadImg("img/button/big_button/1.png", g_screen))
             {
                 std::cout << "Failed to load play_button image" << std::endl;
                 success = false;
@@ -358,12 +373,61 @@ bool LoadMedia()
             {
                 for (int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    gLevelButton[i].x = 150 * i;
-                    gLevelButton[i].y = 0;
-                    gLevelButton[i].w = 150;
-                    gLevelButton[i].h = 150;
+                    gLevel1Button[i].x = 150 * i;
+                    gLevel1Button[i].y = 0;
+                    gLevel1Button[i].w = 150;
+                    gLevel1Button[i].h = 150;
                 }
             }
+
+            if (!gLevel2ButtonTexture.LoadImg("img/button/big_button/2.png", g_screen))
+            {
+                std::cout << "Failed to load play_button image" << std::endl;
+                success = false;
+            }
+            else
+            {
+                for (int i = 0; i < BUTTON_TOTAL; ++i)
+                {
+                    gLevel2Button[i].x = 150 * i;
+                    gLevel2Button[i].y = 0;
+                    gLevel2Button[i].w = 150;
+                    gLevel2Button[i].h = 150;
+                }
+            }
+
+            if (!gLevel3ButtonTexture.LoadImg("img/button/big_button/3.png", g_screen))
+            {
+                std::cout << "Failed to load play_button image" << std::endl;
+                success = false;
+            }
+            else
+            {
+                for (int i = 0; i < BUTTON_TOTAL; ++i)
+                {
+                    gLevel3Button[i].x = 150 * i;
+                    gLevel3Button[i].y = 0;
+                    gLevel3Button[i].w = 150;
+                    gLevel3Button[i].h = 150;
+                }
+            }
+
+            if (!gLevel4ButtonTexture.LoadImg("img/button/big_button/4.png", g_screen))
+            {
+                std::cout << "Failed to load play_button image" << std::endl;
+                success = false;
+            }
+            else
+            {
+                for (int i = 0; i < BUTTON_TOTAL; ++i)
+                {
+                    gLevel4Button[i].x = 150 * i;
+                    gLevel4Button[i].y = 0;
+                    gLevel4Button[i].w = 150;
+                    gLevel4Button[i].h = 150;
+                }
+            }
+
             if (!gHelpButtonTexture.LoadImg("img/button/big_button/help_button.png", g_screen))
             {
                 std::cout << "Failed to load help_button image" << std::endl;

@@ -177,10 +177,14 @@
 //        PlayButton.currentSprite = BUTTON_MOUSE_OUT;
 //    }
 //}
-void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevelButton)[BUTTON_TOTAL],
-                      Button& PlayButton, Button& BackButton, Button& LevelButton,
-                      BaseObject& gBackButtonTexture, BaseObject& gLevelButtonTexture,
-                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick, bool& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture)
+void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_Rect (&gLevel1Button)[BUTTON_TOTAL], SDL_Rect (&gLevel2Button)[BUTTON_TOTAL],
+                      SDL_Rect (&gLevel3Button)[BUTTON_TOTAL], SDL_Rect (&gLevel4Button)[BUTTON_TOTAL],
+                      Button& PlayButton, Button& BackButton, Button& Level1Button,
+                      Button& Level2Button, Button& Level3Button, Button& Level4Button,
+                      BaseObject& gBackButtonTexture, BaseObject& gLevel1ButtonTexture,
+                      BaseObject& gLevel2ButtonTexture, BaseObject& gLevel3ButtonTexture, BaseObject& gLevel4ButtonTexture,
+                      SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick,
+                      int& PlayLevel, bool& Quit_Menu, BaseObject& gLevelMenuTexture)
 {
     // Check for quit event
     if (e->type == SDL_QUIT)
@@ -223,20 +227,53 @@ void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_R
                         ReadDone = true;
                     }
                     // Check if level button is clicked
-                    else if (LevelButton.IsInside(e, COMMON_BUTTON))
+                    else if (Level1Button.IsInside(e, COMMON_BUTTON))
                     {
-                        PlayLevel = true;
+                        PlayLevel = 1;
                         //Quit_MenuLevel = true;
                         Quit_Menu = 1;
                         ReadDone = true;
                         Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
-                        LevelButton.currentSprite = BUTTON_MOUSE_OVER;
+                        Level1Button.currentSprite = BUTTON_MOUSE_OVER;
+                        break;
+                    }
+                    else if (Level2Button.IsInside(e, COMMON_BUTTON))
+                    {
+                        PlayLevel = 2;
+                        //Quit_MenuLevel = true;
+                        Quit_Menu = 1;
+                        ReadDone = true;
+                        Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+                        Level2Button.currentSprite = BUTTON_MOUSE_OVER;
+                        break;
+                    }
+                    else if (Level3Button.IsInside(e, COMMON_BUTTON))
+                    {
+                        PlayLevel = 3;
+                        //Quit_MenuLevel = true;
+                        Quit_Menu = 1;
+                        ReadDone = true;
+                        Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+                        Level3Button.currentSprite = BUTTON_MOUSE_OVER;
+                        break;
+                    }
+                    else if (Level1Button.IsInside(e, COMMON_BUTTON))
+                {
+                    PlayLevel = 4;
+                    //Quit_MenuLevel = true;
+                    Quit_Menu = 1;
+                    ReadDone = true;
+                    Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+                        Level4Button.currentSprite = BUTTON_MOUSE_OVER;
                         break;
                     }
                     break;
                 case SDL_MOUSEMOTION:
                     BackButton.currentSprite = BUTTON_MOUSE_OUT;
-                    LevelButton.currentSprite = BUTTON_MOUSE_OUT;
+                    Level1Button.currentSprite = BUTTON_MOUSE_OUT;
+                    Level2Button.currentSprite = BUTTON_MOUSE_OUT;
+                    Level3Button.currentSprite = BUTTON_MOUSE_OUT;
+                    Level4Button.currentSprite = BUTTON_MOUSE_OUT;
                     break;
                 default:
                     break;
@@ -246,7 +283,11 @@ void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_R
                 SDL_RenderClear(gRenderer);
                 gLevelMenuTexture.Render(0,0,gRenderer);
                 BackButton.Render(&gBackButton[BackButton.currentSprite], gRenderer, gBackButtonTexture);
-                LevelButton.Render(&gLevelButton[LevelButton.currentSprite], gRenderer, gLevelButtonTexture);
+                Level1Button.Render(&gLevel1Button[Level1Button.currentSprite], gRenderer, gLevel1ButtonTexture);
+                Level2Button.Render(&gLevel2Button[Level2Button.currentSprite], gRenderer, gLevel2ButtonTexture);
+                Level3Button.Render(&gLevel3Button[Level3Button.currentSprite], gRenderer, gLevel3ButtonTexture);
+                Level4Button.Render(&gLevel4Button[Level4Button.currentSprite], gRenderer, gLevel4ButtonTexture);
+
                 SDL_RenderPresent(gRenderer);
             }
             break;

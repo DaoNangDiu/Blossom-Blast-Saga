@@ -25,9 +25,9 @@ void PlayLayer::createMatrix(int width, int height)
         square[i] = new int[height];
 }
 
-bool PlayLayer::init()
+bool PlayLayer::init( int k )
 {
-    nhapfile();
+    nhapfile(k);
     createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
     for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
         for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
@@ -40,7 +40,7 @@ bool PlayLayer::init()
 }
 
 
-int PlayLayer::exec()
+int PlayLayer::exec( int i )
 {
     Mix_Chunk* gClick = nullptr;
     gClick = Mix_LoadWAV("sound/mouse_click.wav");
