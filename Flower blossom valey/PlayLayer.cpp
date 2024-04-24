@@ -6,6 +6,8 @@
 #include "BaseObject.h"
 #include "Function.h"
 
+
+
 const int Esize = 112;
 PlayLayer::PlayLayer( SDL_Renderer *newrender)
 {
@@ -40,6 +42,12 @@ bool PlayLayer::init()
 
 int PlayLayer::exec()
 {
+    Mix_Chunk* gClick = nullptr;
+    gClick = Mix_LoadWAV("sound/mouse_click.wav");
+    if (gClick == nullptr)
+    {
+        LogError("Failed to load mouse click sound", MIX_ERROR);
+    }
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
     {
@@ -52,6 +60,8 @@ int PlayLayer::exec()
             {
             case SDL_MOUSEBUTTONUP:
             {
+                            Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+
                 auto x = (e.button.x-430) / (Esize);
                 auto y = (e.button.y-10) / (Esize);
                 if (selectedX >= 0 && selectedY >= 0 &&
@@ -100,7 +110,9 @@ int PlayLayer::exec()
                 return 1;
         oldTick = currentTick;
         if ( moves < 18 )
+        {
             draw();
+        }
         else
         {
             if ( score <= target )
@@ -113,7 +125,6 @@ int PlayLayer::exec()
             }
         }
         SDL_RenderPresent(renderer);
-        SDL_Delay(20);
     }
     return 0;
 }
@@ -147,11 +158,19 @@ bool PlayLayer::createAndDropElement()
             {
                 for (auto yy = y; yy >= 0; --yy)
                 {
+                    if ( matrix[x][yy+1] != -10 && matrix[x][yy] != -10 && matrix[x][yy-1]==-10  && !( matrix[x][yy] >10 &&matrix[x][yy] <=15)  && !( matrix[x][yy+1] >10 &&matrix[x][yy+1] <=15))
+                    {
+                        matrix[x][yy + 1] = matrix[x][yy];
+                        matrix[x][yy] = -1;
+                        hasHoles = true;
+                        SDL_Delay(20);
+                    }
                     if ( matrix[x][yy+1] != -10 && matrix[x][yy] != -10 && !( matrix[x][yy] >10 &&matrix[x][yy] <=15)  && !( matrix[x][yy+1] >10 &&matrix[x][yy+1] <=15))
                     {
                         matrix[x][yy + 1] = matrix[x][yy];
                         matrix[x][0] = -1;
                         hasHoles = true;
+                        SDL_Delay(20);
                     }
                 }
             }
@@ -160,7 +179,9 @@ bool PlayLayer::createAndDropElement()
     for (auto x = 0; x < MATRIX_WIDTH; ++x)
         for ( auto y = 0 ; y < MATRIX_HEIGHT ; ++y )
             if (matrix[x][y] == -1)
+            {
                 matrix[x][y] = rand() % 5;
+            }
     return hasHoles;
 
 }
@@ -168,8 +189,8 @@ bool PlayLayer::createAndDropElement()
 void PlayLayer::draw()
 {
 
-BaseObject ss;
-                    SDL_Rect ss1= {0,0,112,112};
+    BaseObject ss;
+    SDL_Rect ss1= {0,0,112,112};
     for (int x = 0; x < MATRIX_WIDTH; ++x)
         for (int y = 0; y < MATRIX_HEIGHT; ++y)
         {
@@ -179,7 +200,7 @@ BaseObject ss;
                 {
                     ss.LoadImg(elementNormal[matrix[x][y]],renderer);
                     ss.Render(Esize*x+430,Esize*y+10,renderer, &ss1);
-                        ss.destroy();
+                    ss.destroy();
 
                 }
                 else
@@ -191,7 +212,7 @@ BaseObject ss;
                     BaseObject border;
                     border.LoadImg("img/Other/border.png",renderer);
                     border.Render(Esize*x+430,Esize*y+10, renderer,&ss1);
-    ss.destroy();
+                    ss.destroy();
                 }
             }
         }
@@ -235,7 +256,7 @@ void PlayLayer::drawMatrix()
                 ss.Render((Esize)*(x)+430,(Esize)*(y)+10,renderer,&ss1);
             }
         }
-        ss.Free();
-        ss.destroy();
-        bg.destroy();
+    ss.Free();
+    ss.destroy();
+    bg.destroy();
 }

@@ -141,14 +141,16 @@ void close()
 
 int main(int argc, char* argv[])
 {
+    srand(time(0));
+
     if (InitData() == false)
         return -1;
     if (LoadMedia() == false)
         return -1;
     bool Quit_Menu = false;
-  //  bool Play_Again = false;
+    //  bool Play_Again = false;
     bool Quit_Play = false;
-                bool PlayLevel = false;
+    bool PlayLevel = false;
     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
     while (!Quit_Menu)
     {
@@ -167,7 +169,7 @@ int main(int argc, char* argv[])
                              PlayButton, BackButton, LevelButton,
                              gBackButtonTexture, gLevelButtonTexture,
                              g_screen, Quit_Game, gClick, PlayLevel,Quit_Menu,gLevelMenuTexture);
-                             if (Quit_Menu == 1 ) break;
+            if (Quit_Menu == 1 ) break;
 
             HandleHelpButton(&e_mouse, gBackButton,
                              HelpButton, BackButton,
@@ -183,7 +185,7 @@ int main(int argc, char* argv[])
                 break;
             }
         }
-                             if (Quit_Menu == 1 ) break;
+        if (Quit_Menu == 1 ) break;
 
         gMenuTexture.Render(0,0,g_screen);
 
@@ -325,7 +327,7 @@ bool LoadMedia()
                 success = false;
             }
 
-            if (!gLevelMenuTexture.LoadImg("img/background/bg1.png", g_screen))
+            if (!gLevelMenuTexture.LoadImg("img/background/menulevel.png", g_screen))
             {
                 std::cout << "Failed to load instruction image" << std::endl;
                 success = false;
@@ -347,7 +349,7 @@ bool LoadMedia()
                 }
             }
 
-            if (!gLevelButtonTexture.LoadImg("img/button/big_button/level1.png", g_screen))
+            if (!gLevelButtonTexture.LoadImg("img/button/big_button/1.png", g_screen))
             {
                 std::cout << "Failed to load play_button image" << std::endl;
                 success = false;
@@ -359,7 +361,7 @@ bool LoadMedia()
                     gLevelButton[i].x = 150 * i;
                     gLevelButton[i].y = 0;
                     gLevelButton[i].w = 150;
-                    gLevelButton[i].h = 98;
+                    gLevelButton[i].h = 150;
                 }
             }
             if (!gHelpButtonTexture.LoadImg("img/button/big_button/help_button.png", g_screen))

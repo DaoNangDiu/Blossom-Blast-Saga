@@ -8,7 +8,7 @@ using namespace std;
 int target;
 int moves  ;
 int score;
-ifstream f("Level 2.txt");
+ifstream f("Level 1.txt");
 
 char element;
 void nhapfile()
@@ -97,7 +97,7 @@ void getRowChain(int i, int j, vector<pair<int,int>> &chaiList, int** matrix)
     neighCol = j+1;
     while ( neighCol < MATRIX_HEIGHT )
     {
-        if( matrix[i][neighCol] == matrix[i][j] )
+        if( elementCheck(matrix[i][neighCol]) == elementCheck(matrix[i][j]) )
         {
             chaiList.push_back(make_pair(i,neighCol));
             neighCol++;
