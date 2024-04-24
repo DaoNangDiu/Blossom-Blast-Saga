@@ -84,7 +84,6 @@ int PlayLayer::exec( int i )
                     if ( score == temp )
                     {
                         std::swap (matrix[x][y],matrix[selectedX][selectedY]);
-                        cout << "phe";
                         moves++;
                         SDL_Delay(100);
                     }

@@ -46,7 +46,7 @@ void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_R
                       BaseObject& gBackButtonTexture, BaseObject& gLevel1ButtonTexture,
                       BaseObject& gLevel2ButtonTexture, BaseObject& gLevel3ButtonTexture, BaseObject& gLevel4ButtonTexture,
                       SDL_Renderer* gRenderer, bool& Quit_MenuLevel, Mix_Chunk* gClick,
-                      int& PlayLevel,bool& Quit_Menu, BaseObject& gLevelMenuTexture);
+                      int& PlayLevel,bool& Quit_Menu, BaseObject& gLevelMenuTexture,BaseObject& gSnailTexture, SDL_Rect (&gSnail)[11]);
 void HandlePauseButton(SDL_Event* e,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],

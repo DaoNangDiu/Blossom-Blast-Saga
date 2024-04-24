@@ -13,12 +13,10 @@ BaseObject g_background;
 
 
 SDL_Color textColor = { 0, 0, 0 };
-TTF_Font* gFont = nullptr;//
+TTF_Font* gFont = nullptr;
 Mix_Music* gMusic = nullptr;
 Mix_Music* gMenuMusic = nullptr;
 Mix_Chunk* gClick = nullptr;
-Mix_Chunk* gJump = nullptr;
-Mix_Chunk* gLose = nullptr;
 
 SDL_Rect gPlayButton[BUTTON_TOTAL];
 SDL_Rect gHelpButton[BUTTON_TOTAL];
@@ -31,6 +29,21 @@ SDL_Rect gLevel1Button[BUTTON_TOTAL];
 SDL_Rect gLevel2Button[BUTTON_TOTAL];
 SDL_Rect gLevel3Button[BUTTON_TOTAL];
 SDL_Rect gLevel4Button[BUTTON_TOTAL];
+SDL_Rect gSnail[11]={
+    {0, 0, 213, 120},
+    {213, 0, 213, 120},
+    {213*2, 0, 213, 120},
+    {213*3, 0, 213, 120},
+    {213*4, 0, 213, 120},
+
+    {213*5, 0, 213, 120},
+    {213*6, 0, 213, 120},
+    {213*7, 0, 213, 120},
+    {213*8, 0, 213, 120},
+    {213*9, 0, 213, 120},
+
+    {213*10, 0, 213, 120},
+};
 
 BaseObject gMenuTexture;
 BaseObject gInstructionTexture;
@@ -52,6 +65,7 @@ BaseObject gLevel2ButtonTexture;
 BaseObject gLevel3ButtonTexture;
 BaseObject gLevel4ButtonTexture;
 BaseObject gLevelMenuTexture;
+BaseObject gSnailTexture;
 
 Button PlayButton(PLAY_BUTON_POSX, PLAY_BUTTON_POSY);
 Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
@@ -132,12 +146,9 @@ void close()
     Mix_FreeMusic(gMusic);
     Mix_FreeMusic(gMenuMusic);
 //    Mix_FreeChunk(gClick);
-    Mix_FreeChunk(gLose);
     gMusic = nullptr;
     gMenuMusic = nullptr;
 //    gClick = nullptr;
-    gLose = nullptr;
-    gJump = nullptr;
 
     g_background.Free();
 
@@ -182,7 +193,7 @@ int main(int argc, char* argv[])
             HandlePlayButton(&e_mouse, gBackButton,gLevel1Button, gLevel2Button, gLevel3Button, gLevel4Button,
                              PlayButton, BackButton, Level1Button, Level2Button, Level3Button, Level4Button,
                              gBackButtonTexture, gLevel1ButtonTexture, gLevel2ButtonTexture, gLevel3ButtonTexture, gLevel4ButtonTexture,
-                             g_screen, Quit_Game, gClick, PlayLevel, Quit_Menu,gLevelMenuTexture);
+                             g_screen, Quit_Game, gClick, PlayLevel, Quit_Menu,gLevelMenuTexture, gSnailTexture,gSnail);
             if (Quit_Menu == 1 ) break;
 
             HandleHelpButton(&e_mouse, gBackButton,
@@ -294,19 +305,6 @@ bool LoadMedia()
         success = false;
     }
 
-    gJump = Mix_LoadWAV("sound/jump_sound.wav");
-    if (gJump == nullptr)
-    {
-        LogError("Failed to load jumping sound", MIX_ERROR);
-        success = false;
-    }
-
-    gLose = Mix_LoadWAV("sound/lose_sound.wav");
-    if (gLose == nullptr)
-    {
-        LogError("Failed to load lose sound", MIX_ERROR);
-        success = false;
-    }
 
     else
     {
@@ -342,7 +340,7 @@ bool LoadMedia()
                 success = false;
             }
 
-            if (!gLevelMenuTexture.LoadImg("img/background/menulevel.png", g_screen))
+            if (!gLevelMenuTexture.LoadImg("img/background/menulevel (3).png", g_screen))
             {
                 std::cout << "Failed to load instruction image" << std::endl;
                 success = false;
@@ -389,10 +387,10 @@ bool LoadMedia()
             {
                 for (int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    gLevel2Button[i].x = 150 * i;
+                    gLevel2Button[i].x = 130 * i;
                     gLevel2Button[i].y = 0;
-                    gLevel2Button[i].w = 150;
-                    gLevel2Button[i].h = 150;
+                    gLevel2Button[i].w = 130;
+                    gLevel2Button[i].h = 130;
                 }
             }
 
@@ -442,6 +440,12 @@ bool LoadMedia()
                     gHelpButton[i].w = 150;
                     gHelpButton[i].h = 98;
                 }
+            }
+
+            if (!gSnailTexture.LoadImg("img/Other/1.png", g_screen))
+            {
+                std::cout << "Failed to load help_button image" << std::endl;
+                success = false;
             }
 
             if (!gBackButtonTexture.LoadImg("img/button/big_button/back_button.png", g_screen))
