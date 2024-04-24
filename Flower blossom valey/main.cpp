@@ -137,11 +137,8 @@ void close()
     gLevel2ButtonTexture.Free();
     gLevel3ButtonTexture.Free();
     gLevel4ButtonTexture.Free();
-    gContinueButtonTexture.Free();
-    gLoseTexture.Free();
-    gText1Texture.Free();
     gScoreTexture.Free();
-    gText2Texture.Free();
+    gSnailTexture.Free();
     gHighScoreTexture.Free();
     Mix_FreeMusic(gMusic);
     Mix_FreeMusic(gMenuMusic);

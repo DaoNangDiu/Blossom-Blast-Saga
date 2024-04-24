@@ -7,6 +7,20 @@
 #include "Function.h"
 
 
+SDL_Rect effect[10] =
+{
+    {0,0,360,360},
+    {360*1,0,360,360},
+    {360*2,0,360,360},
+    {360*3,0,360,360},
+    {4*360,0,360,360},
+    {5*360,0,360,360},
+    {6*360,0,360,360},
+    {7*360,0,360,360},
+    {8*360,0,360,360},
+    {9*360,0,360,360},
+};
+
 
 const int Esize = 112;
 PlayLayer::PlayLayer( SDL_Renderer *newrender)
@@ -42,6 +56,8 @@ bool PlayLayer::init( int k )
 
 int PlayLayer::exec( int i )
 {
+    BaseObject gEffectTexture;
+
     Mix_Chunk* gClick = nullptr;
     gClick = Mix_LoadWAV("sound/mouse_click.wav");
     if (gClick == nullptr)
@@ -60,7 +76,7 @@ int PlayLayer::exec( int i )
             {
             case SDL_MOUSEBUTTONUP:
             {
-                            Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+                Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
 
                 auto x = (e.button.x-430) / (Esize);
                 auto y = (e.button.y-10) / (Esize);
@@ -83,9 +99,24 @@ int PlayLayer::exec( int i )
                     moves--;
                     if ( score == temp )
                     {
+
                         std::swap (matrix[x][y],matrix[selectedX][selectedY]);
                         moves++;
                         SDL_Delay(100);
+                    }
+                    else
+                    {
+                        int index = 0;
+                        while(index < 10)
+                        {
+                            if (!gEffectTexture.LoadImg("img/Other/2.png", renderer))
+                            {
+                                std::cout << "Failed to load help_button image" << std::endl;
+                            }
+                            gEffectTexture.Render(430+x*120,10+y*120,renderer,&effect[index]);
+                            index++;
+                        }
+                        gEffectTexture.destroy();
                     }
                     selectedX = -1;
                     selectedY = -1;
@@ -121,10 +152,13 @@ int PlayLayer::exec( int i )
                 fn.LoadImg("bg.png",renderer);
                 SDL_Rect fn1{0,0,1760,990};
                 fn.Render(0,0,renderer,&fn1);
+
             }
         }
         SDL_RenderPresent(renderer);
     }
+     gClick = nullptr;
+
     return 0;
 }
 
