@@ -20,7 +20,7 @@ char element;
 void nhapfile( int i )
 {
     f.open(filename[i-1]);
-    f >> moves >> targeth >> targetc >> targetl >> targetn >> targetd >> targetch >> MATRIX_WIDTH >> MATRIX_HEIGHT;
+    f >> moves >> targetch >> targeth >> targetl >> targetc >> targetn >> targetd >> MATRIX_WIDTH >> MATRIX_HEIGHT;
     cout << moves << " " << targetn << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
 }
 char elementCheck( int i )
@@ -76,7 +76,7 @@ void scorer ( char element, int num )
         score += (40*num);
         break;
     }
-    case 'r':
+    case 'd':
     {
         score+= (50*num);
         break;
@@ -497,7 +497,4 @@ void bee2 (int** matrix, int i, int j,int selectedX, int selectedY)
             }
     }
 }
-
-
 #endif // FUNCTION_H
-

@@ -67,7 +67,7 @@ bool PlayLayer::init( int k )
     return true;
 }
 
-int PlayLayer::exec2()
+bool PlayLayer::exec2()
 {
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
@@ -201,11 +201,12 @@ int PlayLayer::exec2()
 //            }
 //        }
         SDL_RenderPresent(renderer);
+        if ( moves == 0 ) return 0;
     }
-    return 0;
+    return 1;
 }
 
-int PlayLayer::exec()
+bool PlayLayer::exec()
 {
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
@@ -278,7 +279,6 @@ int PlayLayer::exec()
                 break;
             }
         }
-
         auto currentTick = SDL_GetTicks();
         for (auto t = oldTick; t < currentTick; ++t)
             if (!tick())
@@ -331,8 +331,10 @@ int PlayLayer::exec()
 //            }
 //        }
         SDL_RenderPresent(renderer);
+        if (moves == 0 ) return 0;
+
     }
-    return 0;
+    return 1;
 }
 
 bool PlayLayer::tick()
@@ -432,8 +434,14 @@ void PlayLayer::drawScoreAndMove()
     SDL_Color textColor = {255, 255, 255};
     text.loadFromRenderedText(t1,textColor,font);
     SDL_Rect ss2 = {0,0,20,20};
-    text.render(150, 650,20,20,NULL);
+    text.render(1400, 650,50,50,NULL);
     Texture point[6];
+    if ( targetch < 0 ) targetch = 0;
+    if ( targeth < 0 ) targeth = 0;
+    if ( targetl < 0 ) targetl = 0;
+    if ( targetc < 0 ) targetc = 0;
+    if ( targetn < 0 ) targetn = 0;
+    if ( targetd < 0 ) targetd = 0;
     string t[6]=
     {
         std::to_string(targetch),
@@ -446,13 +454,13 @@ void PlayLayer::drawScoreAndMove()
     for (int i = 0 ; i < 6 ; i++ )
     {
         point[i].loadFromRenderedText(t[i],textColor,font);
-        point[i].render(100*i, 100, 20,20,NULL);
+        point[i].render(170, 135*(i+1), 40,40,NULL);
         point[i].free();
     }
     Texture Move;
     string s = std::to_string(moves);
     Move.loadFromRenderedText(s,textColor,font);
-    Move.render(150,370,20,20,NULL);
+    Move.render(1400,430,50,50,NULL);
     text.free();
     Move.free();
 }
@@ -467,15 +475,15 @@ void PlayLayer::drawScoreAndMove2()
     SDL_Color textColor = {255, 255, 255};
     text1.loadFromRenderedText(t1,textColor,font);
     text2.loadFromRenderedText(t2,textColor,font);
-    text1.render(150, 650,20,20,NULL);
-    text2.render(650, 650,20,20,NULL);
+    text1.render(140, 650,50,50,NULL);
+    text2.render(1400, 650,50,50,NULL);
     Texture Move1,Move2;
     string s1 = std::to_string(move1);
     string s2 = std::to_string(move2);
     Move1.loadFromRenderedText(s1,textColor,font);
-    Move1.render(150,370,20,20,NULL);
+    Move1.render(140,430,50,50,NULL);
     Move2.loadFromRenderedText(s2,textColor,font);
-    Move2.render(450,370,20,20,NULL);
+    Move2.render(1400,430,50,50,NULL);
     text1.free();
     text2.free();
     Move1.free();

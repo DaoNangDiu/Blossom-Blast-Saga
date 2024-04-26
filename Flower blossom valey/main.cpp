@@ -9,6 +9,7 @@
 #include "GameUtils.h"
 #include "Button.h"
 #include<bits/stdc++.h>
+//#include "Function.h"
 BaseObject g_background;
 
 
@@ -29,19 +30,18 @@ SDL_Rect gLevel1Button[BUTTON_TOTAL];
 SDL_Rect gLevel2Button[BUTTON_TOTAL];
 SDL_Rect gLevel3Button[BUTTON_TOTAL];
 SDL_Rect gLevel4Button[BUTTON_TOTAL];
-SDL_Rect gSnail[11]={
+SDL_Rect gSnail[11]=
+{
     {0, 0, 213, 120},
     {213, 0, 213, 120},
     {213*2, 0, 213, 120},
     {213*3, 0, 213, 120},
     {213*4, 0, 213, 120},
-
     {213*5, 0, 213, 120},
     {213*6, 0, 213, 120},
     {213*7, 0, 213, 120},
     {213*8, 0, 213, 120},
     {213*9, 0, 213, 120},
-
     {213*10, 0, 213, 120},
 };
 
@@ -166,13 +166,14 @@ int main(int argc, char* argv[])
 
     if (InitData() == false)
         return -1;
-    if (LoadMedia() == false)
+    else if (LoadMedia() == false)
         return -1;
+        else {
     bool Quit_Menu = false;
     //  bool Play_Again = false;
     bool Quit_Play = false;
     int PlayLevel = 0;
-
+            bool Quit_Game = false;
     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
     while (!Quit_Menu)
     {
@@ -185,7 +186,6 @@ int main(int argc, char* argv[])
                 Quit_Menu = true;
             }
 
-            bool Quit_Game = false;
             //   HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
             HandlePlayButton(&e_mouse, gBackButton,gLevel1Button, gLevel2Button, gLevel3Button, gLevel4Button,
                              PlayButton, BackButton, Level1Button, Level2Button, Level3Button, Level4Button,
@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
     }
 
 
-while(PlayLevel != 0 && PlayLevel < 4)
+    while(PlayLevel != 0 && PlayLevel < 4)
     {
         srand(time(NULL));
         bool is_quit = false;
@@ -257,10 +257,14 @@ while(PlayLevel != 0 && PlayLevel < 4)
                     printf("Failed to initialize PlayLayer.\n");
                 }
 
-                playLayer.exec();
-                SDL_RenderPresent(g_screen);
-
-
+                if(playLayer.exec())
+                    SDL_RenderPresent(g_screen);
+                else
+                {
+                    PlayLevel = 0;
+                    Quit_Menu = 0;
+                    Quit_Game = 0;
+                }
             }
 
 
@@ -271,7 +275,7 @@ while(PlayLevel != 0 && PlayLevel < 4)
         }
     }
 
-while(PlayLevel ==  4)
+    while(PlayLevel ==  4)
     {
         srand(time(NULL));
         bool is_quit = false;
@@ -301,7 +305,11 @@ while(PlayLevel ==  4)
                 playLayer.exec2();
                 SDL_RenderPresent(g_screen);
 
-
+                if( playLayer.Moves == 0 )
+                {
+                    PlayLevel = 0;
+                    Quit_Menu = 0;
+                }
             }
 
 
@@ -311,7 +319,7 @@ while(PlayLevel ==  4)
             }
         }
     }
-
+        }
 
     close();
     return 0;
