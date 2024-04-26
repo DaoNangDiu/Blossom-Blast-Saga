@@ -39,7 +39,7 @@ class PlayLayer
 //        void findAndRemoveLines();
         bool createAndDropElement();
         void drawMatrix();
-
+        void LoadMedia();
        // SDL_Point positionOfItem(int row, int col);
 };
 

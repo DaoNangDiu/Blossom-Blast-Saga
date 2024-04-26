@@ -265,7 +265,7 @@ void stripes ( int** matrix, int i, int j )
 
 void bee ( int** matrix, int i, int j )
 {
-    if ( matrix[i][j] > 0 )
+    if ( matrix[i][j] >= 0 )
     {
         element = elementCheck(matrix[i][j]);
         vector<pair<int,int>> colChainList;
