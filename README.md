@@ -4,7 +4,7 @@ Sinh viên: Đào Nắng Dịu
 
 MSSV: 23020022
 # Cách tải game:
-Tải game (được nén thành .zip) 
+Tải game (được nén thành .zip) https://github.com/DaoNangDiu/Baitaplon
 
 Giải nén game vào một thư mục và bật file .exe lên và chơi.
 # Demo game: https://youtu.be/p4HKOecK8p8
