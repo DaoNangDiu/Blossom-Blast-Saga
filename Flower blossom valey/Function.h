@@ -7,7 +7,7 @@ using namespace std;
 
 int moves  ;
 int score;
-int targeth,  targetc, targetl, targetn, targetd, targetch;
+int level, targeth,  targetc, targetl, targetn, targetd, targetch;
 ifstream f;
 string filename[]=
 {
@@ -20,8 +20,8 @@ char element;
 void nhapfile( int i )
 {
     f.open(filename[i-1]);
-    f >> moves >> targetch >> targeth >> targetl >> targetc >> targetn >> targetd >> MATRIX_WIDTH >> MATRIX_HEIGHT;
-    cout << moves << " " << targetn << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
+    f >> level >>  moves >> targetch >> targeth >> targetl >> targetc >> targetn >> targetd >> MATRIX_WIDTH >> MATRIX_HEIGHT;
+    cout << level << " " <<  moves << " " << targetn << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
 }
 char elementCheck( int i )
 {

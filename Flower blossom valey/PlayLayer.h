@@ -19,6 +19,7 @@ public:
     bool tick();
     void draw();
     int Moves;
+    int check = 0;
     void draw2();
     bool init(int i);
     bool initMatrix();

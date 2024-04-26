@@ -133,8 +133,8 @@ bool PlayLayer::exec2()
                         selectedY = -1;
 
                     }
-                    if ( m1 != move1 ) score1 = score-temp;
-                    else score2 = score-temp;
+                    if ( m1 != move1 ) score1 += (score-temp);
+                    else score2 += (score-temp);
                 }
                 else
                 {
@@ -156,6 +156,9 @@ bool PlayLayer::exec2()
         oldTick = currentTick;
         draw();
         drawScoreAndMove2();
+        if ( score1 == score2 ) check = 0;
+        else if ( score1 > score2 ) check = 1;
+        else check = 2;
         if ( score != temp )
         {
             Mix_Chunk* gMusic = nullptr;
@@ -181,25 +184,6 @@ bool PlayLayer::exec2()
             }
             gEffectTexture.destroy();
         }
-//        if ( moves < 18 )
-//        {
-//            draw();
-//        }
-//        else
-//        {
-//            if ( score <= target )
-//
-//            {
-//                BaseObject fn;
-//                if (!fn.LoadImg("bg.png",renderer))
-//                {
-//                    std::cout << "Failed to load end image" << std::endl;
-//                }
-//                SDL_Rect fn1{0,0,1760,990};
-//                fn.Render(0,0,renderer,&fn1);
-//
-//            }
-//        }
         SDL_RenderPresent(renderer);
         if ( moves == 0 ) return 0;
     }
@@ -286,6 +270,7 @@ bool PlayLayer::exec()
         oldTick = currentTick;
         draw();
         drawScoreAndMove();
+        if ( targetc == 0 && targetch == 0 && targetd == 0 && targeth == 0 && targetl == 0 && targetn == 0 ) check = 1;
         if ( score != temp )
         {
             Mix_Chunk* gMusic = nullptr;
@@ -311,25 +296,6 @@ bool PlayLayer::exec()
             }
             gEffectTexture.destroy();
         }
-//        if ( moves < 18 )
-//        {
-//            draw();
-//        }
-//        else
-//        {
-//            if ( score <= target )
-//
-//            {
-//                BaseObject fn;
-//                if (!fn.LoadImg("bg.png",renderer))
-//                {
-//                    std::cout << "Failed to load end image" << std::endl;
-//                }
-//                SDL_Rect fn1{0,0,1760,990};
-//                fn.Render(0,0,renderer,&fn1);
-//
-//            }
-//        }
         SDL_RenderPresent(renderer);
         if (moves == 0 ) return 0;
 
@@ -457,6 +423,11 @@ void PlayLayer::drawScoreAndMove()
         point[i].render(170, 135*(i+1), 40,40,NULL);
         point[i].free();
     }
+    Texture textd;
+    string td = std::to_string(level) ;
+    textd.loadFromRenderedText(td,textColor,font);
+    textd.render(1400, 230,50,50,NULL);
+    textd.free();
     Texture Move;
     string s = std::to_string(moves);
     Move.loadFromRenderedText(s,textColor,font);

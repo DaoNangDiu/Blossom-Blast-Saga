@@ -224,8 +224,6 @@ int main(int argc, char* argv[])
 
         SDL_RenderPresent(g_screen);
     }
-
-
     while(PlayLevel != 0 && PlayLevel < 4)
     {
         srand(time(NULL));
@@ -243,7 +241,6 @@ int main(int argc, char* argv[])
                         PlayLevel = 0;
                     }
 
-
                 }
 
 //                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
@@ -257,20 +254,14 @@ int main(int argc, char* argv[])
                     printf("Failed to initialize PlayLayer.\n");
                 }
 
-                if(playLayer.exec())
+                if(playLayer.exec()== 0)
                     SDL_RenderPresent(g_screen);
                 else
                 {
                     PlayLevel = 0;
-                    Quit_Menu = 0;
-                    Quit_Game = 0;
+                    //Quit_Menu = 0;
+                    //Quit_Game = 0;
                 }
-            }
-
-
-//            if (!Play_Again)
-            {
-
             }
         }
     }
@@ -291,8 +282,6 @@ int main(int argc, char* argv[])
                         is_quit = true;
                         PlayLevel = 0;
                     }
-
-
                 }
 
                 SDL_RenderClear(g_screen);
@@ -302,25 +291,32 @@ int main(int argc, char* argv[])
                     printf("Failed to initialize PlayLayer.\n");
                 }
 
-                playLayer.exec2();
+                if (playLayer.exec2() == 0  )
+                {
+                     BaseObject h;
+                    h.LoadImg("img/background/23.png",g_screen);
+                    SDL_Rect h1 = {0,0,1600,900};
+                    h.Render(0,0,g_screen,&h1);
+                    SDL_RenderPresent(g_screen);  }
+
                 SDL_RenderPresent(g_screen);
 
                 if( playLayer.Moves == 0 )
                 {
                     PlayLevel = 0;
                     Quit_Menu = 0;
+
+
                 }
-            }
-
-
-//            if (!Play_Again)
-            {
-
             }
         }
     }
-        }
 
+      BaseObject h;
+                    h.LoadImg("img/background/23.png",g_screen);
+                    SDL_Rect h1 = {0,0,1600,900};
+                    h.Render(0,0,g_screen,&h1);
+                    SDL_RenderPresent(g_screen);  }
     close();
     return 0;
 }
