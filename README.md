@@ -1,6 +1,13 @@
-# FLOWER BLOSSSOM VALLEY 
+# FLOWER BLOSSSOM VALLEY
+
 Sinh viên: Đào Nắng Dịu
+
 MSSV: 23020022
+# Cách tải game:
+Tải game (được nén thành .zip) 
+
+Giải nén game vào một thư mục và bật file .exe lên và chơi.
+# Demo game: https://youtu.be/p4HKOecK8p8
 # Giới thiệu game:
 “Flower Blossom Valley” là một game thuộc thể loại game match-3, tương tự tựa game Candy Crush Saga. 	Khi chơi, một lưới 2D sẽ được sử dụng để lưu trữ các thành phần và kích thước lưới tối thiểu là 7x7. Khi bắt đầu trờ chơi, các ô lưới sẽ được lấp đầy bởi những phần tử. Nhiệm vụ của bạn là cung cấp các lựa chọn để hoán đổi hai phần tử,  nếu chúng nằm cạnh nhau trong cùng một cột hoặc hàng lưới. Các điểm số mục tiêu và số lần hoán đổi sẽ được cung cấp khi bắt đầu.
 
@@ -105,11 +112,14 @@ Các phần tử game:
 - Element chan: khi 3 ô cùng loại liên tiếp nhau và ở cùng 1 hàng hoặc 1 cột, thì nếu đó lè elemnt chan thì sợi dây sẽ biến mất và nó chỏ thành element bình thường.
 - Bạn chỉ có thể hoán đổi 2 ô với nhau khi có thể làm biến mất phần tử.
 # 6. Chiến thắng và thất bại:
-- Chế độ 2 người chơi: Người thắng cuộc là người có điểm số cao hơn sau 12 lượt di chuyển.
+- Chế độ 2 người chơi: Người thắng cuộc là người có điểm số cao hơn sau 12 lượt di chuyển, nếu bằng nhau thì hòa.
 
 ![23](https://github.com/DaoNangDiu/Blossom-Blast-Saga/assets/161481999/2a43cde1-4f3e-4a52-a26b-73ee471cf1a2)
   
 ![24](https://github.com/DaoNangDiu/Blossom-Blast-Saga/assets/161481999/61cf1be5-3f5b-45b3-89c1-2875927e6ac4)
+
+![hoa](https://github.com/DaoNangDiu/Blossom-Blast-Saga/assets/161481999/03ad784e-cc9c-4696-b3d9-f1286fbed32b)
+
 - Chế độ một người chơi: Bạn sẽ thắng nếu nghiền được đủ số lượng các phần tử mà bàn đó yêu cầu, ngược lại bạn sẽ thua.
 
 
@@ -122,3 +132,19 @@ Các phần tử game:
 - Folder sound : Các âm thanh được sử dụng trong game.
 - Folder font: Các phông chữ được sử dụng trong game.
 - Các file code:
+
++File texture.h, texture.cpp , BaseObject.h , BaseObject.cpp: vẽ đồ họa
+
++File Button.h,Button.cpp : xử lí các nút
+
++File Function.h, PlayLayer.h, PlayLayer.cpp : thực hiện logic chính của game
+
++File main.cpp : chạy toàn chương trình
+
++File khác: để lưu thông số, dữ liệu
+
+# Credit:
+- Code đồ họa : https://lazyfoo.net/tutorials/SDL/index.php và một số code của thầy Thủy.
+- Âm thanh : game Candy Crush Saga
+- Đồ họa:https://www.canva.com/
+- Phần logic toàn bộ đều tự viết
