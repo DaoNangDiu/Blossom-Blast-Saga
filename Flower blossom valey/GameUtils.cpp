@@ -86,7 +86,7 @@ void HandlePlayButton(SDL_Event* e, SDL_Rect (&gBackButton)[BUTTON_TOTAL], SDL_R
                         Level3Button.currentSprite = BUTTON_MOUSE_OVER;
                         break;
                     }
-                    else if (Level1Button.IsInside(e, COMMON_BUTTON))
+                    else if (Level4Button.IsInside(e, COMMON_BUTTON))
                     {
                         PlayLevel = 4;
                         //Quit_MenuLevel = true;

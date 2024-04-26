@@ -5,9 +5,9 @@ int MATRIX_WIDTH;
 int MATRIX_HEIGHT;
 using namespace std;
 
-int target;
 int moves  ;
 int score;
+int targeth,  targetc, targetl, targetn, targetd, targetch;
 ifstream f;
 string filename[]=
 {
@@ -20,8 +20,8 @@ char element;
 void nhapfile( int i )
 {
     f.open(filename[i-1]);
-    f >> moves >> target >> MATRIX_WIDTH >> MATRIX_HEIGHT;
-    cout << moves << " " << target << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
+    f >> moves >> targeth >> targetc >> targetl >> targetn >> targetd >> targetch >> MATRIX_WIDTH >> MATRIX_HEIGHT;
+    cout << moves << " " << targetn << " " << MATRIX_WIDTH << " " << MATRIX_HEIGHT;
 }
 char elementCheck( int i )
 {
@@ -161,6 +161,7 @@ void plain ( int** matrix,int i, int j)
                             if ( matrix[index.first+x][index.second+y] > 10 )
                             {
                                 matrix[index.first+x][index.second+y] -= 11;
+                                targetch--;
                             }
                             else
                             {
@@ -175,13 +176,26 @@ void plain ( int** matrix,int i, int j)
                 else
                 {
                     if ( matrix[index.first][index.second] > 10 )
+                    {
                         matrix[index.first][index.second] -= 11;
+                        targetch--;
+                    }
                     else
                     {
                         if ( matrix[index.first][index.second] >= 0 )
                         {
                             matrix[index.first][index.second] = -1;
                             scorer(element,1);
+                            if ( element == 'h')
+                                targeth--;
+                            else if ( element == 'c' )
+                                targetc--;
+                            else if ( element == 'n' )
+                                targetn--;
+                            else if ( element == 'l' )
+                                targetl--;
+                            else if ( element == 'd' )
+                                targetd--;
                         }
                     }
                 }
@@ -200,6 +214,7 @@ void plain ( int** matrix,int i, int j)
                             if ( matrix[index.first+x][index.second+y] > 10 )
                             {
                                 matrix[index.first+x][index.second+y] -= 11;
+                                targetch--;
                             }
                             else
                             {
@@ -207,6 +222,16 @@ void plain ( int** matrix,int i, int j)
                                 {
                                     matrix[index.first+x][index.second+y] =-1;
                                     scorer(element,1);
+                                    if ( element == 'h')
+                                        targeth--;
+                                    else if ( element == 'c' )
+                                        targetc--;
+                                    else if ( element == 'n' )
+                                        targetn--;
+                                    else if ( element == 'l' )
+                                        targetl--;
+                                    else if ( element == 'd' )
+                                        targetd--;
                                 }
                             }
                         }
@@ -214,13 +239,26 @@ void plain ( int** matrix,int i, int j)
                 else
                 {
                     if ( matrix[index.first][index.second] > 10 )
+                    {
                         matrix[index.first][index.second] -= 11;
+                        targetch--;
+                    }
                     else
                     {
                         if (matrix[index.first][index.second] >= 0)
                         {
                             matrix[index.first][index.second] = -1;
                             scorer(element,1);
+                            if ( element == 'h')
+                                targeth--;
+                            else if ( element == 'c' )
+                                targetc--;
+                            else if ( element == 'n' )
+                                targetn--;
+                            else if ( element == 'l' )
+                                targetl--;
+                            else if ( element == 'd' )
+                                targetd--;
                         }
                     }
                 }
@@ -248,7 +286,10 @@ void stripes ( int** matrix, int i, int j )
             for ( auto index : rowChainList )
             {
                 if (matrix[index.first][index.second] > 10 )
+                {
                     matrix[index.first][index.second] -= 11;
+                    targetch--;
+                }
                 else
                     matrix[index.first][index.second] = -1;
             }
@@ -257,6 +298,16 @@ void stripes ( int** matrix, int i, int j )
                 matrix[index.first][index.second] = -1;
             }
             scorer(element,ColSize+RowSize-1);
+            if ( element == 'h')
+                targeth-=(ColSize+RowSize-1);
+            else if ( element == 'c' )
+                targetc-=(ColSize+RowSize-1);
+            else if ( element == 'n' )
+                targetn-=(ColSize+RowSize-1);
+            else if ( element == 'l' )
+                targetl-=(ColSize+RowSize-1);
+            else if ( element == 'd' )
+                targetd-=(ColSize+RowSize-1);
             matrix[i][j] = temp + 5;
         }
     }
@@ -280,9 +331,18 @@ void bee ( int** matrix, int i, int j )
             {
                 matrix[index.first][index.second] = -1;
                 cout << index.first << " " << index.second << endl;
-
             }
             scorer(element,ColSize);
+            if ( element == 'h')
+                targeth-=ColSize;
+            else if ( element == 'c' )
+                targetc-=ColSize;
+            else if ( element == 'n' )
+                targetn-=ColSize;
+            else if ( element == 'l' )
+                targetl-=ColSize;
+            else if ( element == 'd' )
+                targetd-=ColSize;
             matrix[i][j] = 10;
         }
         if ( RowSize >= 5 )
@@ -294,6 +354,16 @@ void bee ( int** matrix, int i, int j )
 
             }
             scorer(element,RowSize);
+            if ( element == 'h')
+                targeth-=RowSize;
+            else if ( element == 'c' )
+                targetc-=RowSize;
+            else if ( element == 'n' )
+                targetn-=RowSize;
+            else if ( element == 'l' )
+                targetl-=RowSize;
+            else if ( element == 'd' )
+                targetd-=RowSize;
             matrix[i][j]=10;
         }
     }
@@ -317,6 +387,16 @@ void beeplain( int** matrix, int i, int j, int selectedX, int selectedY )
                     {
                         matrix[x][y] = -1;
                         scorer(element,1);
+                        if ( element == 'h')
+                            targeth--;
+                        else if ( element == 'c' )
+                            targetc--;
+                        else if ( element == 'n' )
+                            targetn--;
+                        else if ( element == 'l' )
+                            targetl--;
+                        else if ( element == 'd' )
+                            targetd--;
                     }
                 }
         }
@@ -336,6 +416,16 @@ void beeplain( int** matrix, int i, int j, int selectedX, int selectedY )
                     {
                         matrix[x][y] = -1;
                         scorer(element,1);
+                        if ( element == 'h')
+                            targeth--;
+                        else if ( element == 'c' )
+                            targetc--;
+                        else if ( element == 'n' )
+                            targetn--;
+                        else if ( element == 'l' )
+                            targetl--;
+                        else if ( element == 'd' )
+                            targetd--;
                     }
                 }
         }
@@ -352,7 +442,29 @@ void stripes2 ( int** matrix, int i, int j, int selectedX, int selecttedY )
                 if ( matrix[i+x][j+y] >= 0 && matrix[selectedX+x][selecttedY+y]>= 0)
                 {
                     scorer(elementCheck(matrix[i+x][j+y]),1);
+                    char element = elementCheck(matrix[i+x][j+y]);
+                                   if ( element == 'h')
+                                       targeth--;
+                    else if ( element == 'c' )
+                        targetc--;
+                    else if ( element == 'n' )
+                        targetn--;
+                    else if ( element == 'l' )
+                        targetl--;
+                    else if ( element == 'd' )
+                        targetd--;
                     scorer(elementCheck(matrix[selectedX+x][selecttedY+y]),1);
+                    element=elementCheck(matrix[selectedX+x][selecttedY+y]);
+                    if ( element == 'h')
+                        targeth--;
+                    else if ( element == 'c' )
+                        targetc--;
+                    else if ( element == 'n' )
+                        targetn--;
+                    else if ( element == 'l' )
+                        targetl--;
+                    else if ( element == 'd' )
+                        targetd--;
                     matrix[i+x][j+y] = -1;
                     matrix[selectedX+x][selecttedY+y] = -1;
                 }
@@ -369,8 +481,19 @@ void bee2 (int** matrix, int i, int j,int selectedX, int selectedY)
         for ( int x =0  ; x < MATRIX_WIDTH ; x++)
             for ( int y = 0 ; y < MATRIX_HEIGHT ; y++ )
             {
+                char element= elementCheck(matrix[x][y]);
                 scorer(elementCheck(matrix[x][y]),1);
                 matrix[x][y] = -1;
+                if ( element == 'h')
+                    targeth--;
+                else if ( element == 'c' )
+                    targetc--;
+                else if ( element == 'n' )
+                    targetn--;
+                else if ( element == 'l' )
+                    targetl--;
+                else if ( element == 'd' )
+                    targetd--;
             }
     }
 }

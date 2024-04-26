@@ -97,7 +97,7 @@ bool Texture::loadString(std::string path, std::string str, TTF_Font *textFont)
 	bool success = true;
 
 	// Open the font
-	textFont = TTF_OpenFont(path.c_str(), 32);
+	textFont = TTF_OpenFont(path.c_str(), 9);
 	if (textFont == NULL)
 	{
 		std::cout << "Unable to load font " << path << "! SDL_ttf Error: " << TTF_GetError() << std::endl;

@@ -14,10 +14,14 @@ class PlayLayer
     public:
         PlayLayer(SDL_Renderer* renderer);
         ~PlayLayer();
-        int exec( int i);
+        int exec();
+        int exec2();
         bool tick();
         void draw();
+        void draw2();
         bool init(int i);
+                bool initMatrix();
+
         //void update();
         //void render();
         static SDL_Renderer* renderer;
@@ -31,14 +35,18 @@ class PlayLayer
         int selectedY = -1;
         int width;
         int height;
+int score1 = 0, move1 = 12;
+int score2 = 0, move2 = 12;
         float matrixLeftBottomX;
         float matrixLeftBottomY;
         unsigned ticks = 0;
         void createMatrix(int width, int height);
-        bool initMatrix();
 //        void findAndRemoveLines();
         bool createAndDropElement();
         void drawMatrix();
+        void drawMatrix2();
+        void drawScoreAndMove();
+        void drawScoreAndMove2();
         void LoadMedia();
        // SDL_Point positionOfItem(int row, int col);
 };

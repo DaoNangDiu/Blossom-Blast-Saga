@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
     }
 
 
-while(PlayLevel != 0)
+while(PlayLevel != 0 && PlayLevel < 4)
     {
         srand(time(NULL));
         bool is_quit = false;
@@ -255,10 +255,9 @@ while(PlayLevel != 0)
                 if (!playLayer.init(PlayLevel))
                 {
                     printf("Failed to initialize PlayLayer.\n");
-                    return false;
                 }
 
-                playLayer.exec(PlayLevel);
+                playLayer.exec();
                 SDL_RenderPresent(g_screen);
 
 
@@ -271,6 +270,48 @@ while(PlayLevel != 0)
             }
         }
     }
+
+while(PlayLevel ==  4)
+    {
+        srand(time(NULL));
+        bool is_quit = false;
+        bool Game_State = true;
+        while (!is_quit)
+        {
+            if (Game_State)
+            {
+                while (SDL_PollEvent(&g_event)!=0)
+                {
+                    if (g_event.type == SDL_QUIT)
+                    {
+                        is_quit = true;
+                        PlayLevel = 0;
+                    }
+
+
+                }
+
+                SDL_RenderClear(g_screen);
+                PlayLayer playLayer(g_screen);
+                if (!playLayer.initMatrix())
+                {
+                    printf("Failed to initialize PlayLayer.\n");
+                }
+
+                playLayer.exec2();
+                SDL_RenderPresent(g_screen);
+
+
+            }
+
+
+//            if (!Play_Again)
+            {
+
+            }
+        }
+    }
+
 
     close();
     return 0;
@@ -337,7 +378,7 @@ bool LoadMedia()
                 success = false;
             }
 
-            if (!gLevelMenuTexture.LoadImg("img/background/menulevel (3).png", g_screen))
+            if (!gLevelMenuTexture.LoadImg("img/background/menu.png", g_screen))
             {
                 std::cout << "Failed to load instruction image" << std::endl;
                 success = false;
@@ -384,10 +425,10 @@ bool LoadMedia()
             {
                 for (int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    gLevel2Button[i].x = 130 * i;
+                    gLevel2Button[i].x = 150 * i;
                     gLevel2Button[i].y = 0;
-                    gLevel2Button[i].w = 130;
-                    gLevel2Button[i].h = 130;
+                    gLevel2Button[i].w = 150;
+                    gLevel2Button[i].h = 150;
                 }
             }
 
@@ -400,14 +441,14 @@ bool LoadMedia()
             {
                 for (int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    gLevel3Button[i].x = 150 * i;
+                    gLevel3Button[i].x = 120 * i;
                     gLevel3Button[i].y = 0;
-                    gLevel3Button[i].w = 150;
-                    gLevel3Button[i].h = 150;
+                    gLevel3Button[i].w = 120;
+                    gLevel3Button[i].h = 120;
                 }
             }
 
-            if (!gLevel4ButtonTexture.LoadImg("img/button/big_button/4.png", g_screen))
+            if (!gLevel4ButtonTexture.LoadImg("img/button/big_button/5.png", g_screen))
             {
                 std::cout << "Failed to load play_button image" << std::endl;
                 success = false;
@@ -416,10 +457,10 @@ bool LoadMedia()
             {
                 for (int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    gLevel4Button[i].x = 150 * i;
+                    gLevel4Button[i].x = 180 * i;
                     gLevel4Button[i].y = 0;
-                    gLevel4Button[i].w = 150;
-                    gLevel4Button[i].h = 150;
+                    gLevel4Button[i].w = 180;
+                    gLevel4Button[i].h = 180;
                 }
             }
 
@@ -477,37 +518,6 @@ bool LoadMedia()
                 }
             }
 
-            if (!gPauseButtonTexture.LoadImg("img/button/big_button/pause_button.png", g_screen))
-            {
-                std::cout << "Failed to load pause_button image " << std::endl;
-                success = false;
-            }
-            else
-            {
-                for (int i = 0; i < BUTTON_TOTAL; ++i)
-                {
-                    gPauseButton[i].x = 22 * i;
-                    gPauseButton[i].y = 0;
-                    gPauseButton[i].w = 22;
-                    gPauseButton[i].h = 34;
-                }
-            }
-
-            if (!gContinueButtonTexture.LoadImg("img/button/big_button/continue_button.png", g_screen))
-            {
-                std::cout << "Failed to load continue_button image " << std::endl;
-                success = false;
-            }
-            else
-            {
-                for (int i = 0; i < BUTTON_TOTAL; ++i)
-                {
-                    gContinueButton[i].x = 22 * i;
-                    gContinueButton[i].y = 0;
-                    gContinueButton[i].w = 22;
-                    gContinueButton[i].h = 34;
-                }
-            }
         }
     }
     return success;

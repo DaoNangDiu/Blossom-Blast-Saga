@@ -38,6 +38,22 @@ void PlayLayer::createMatrix(int width, int height)
         square[i] = new int[height];
 }
 
+bool PlayLayer::initMatrix ()
+{
+    moves = 24;
+    MATRIX_WIDTH = 8;
+    MATRIX_HEIGHT = 8;
+    createMatrix(MATRIX_WIDTH, MATRIX_HEIGHT);
+    for ( int i = 0 ; i < MATRIX_WIDTH ; i++ )
+        for ( int j = 0 ; j < MATRIX_HEIGHT ; j++ )
+        {
+            matrix[j][i]= rand()%5;
+            square[j][i]= matrix[j][i];
+        }
+    return true;
+}
+
+
 bool PlayLayer::init( int k )
 {
     nhapfile(k);
@@ -51,8 +67,145 @@ bool PlayLayer::init( int k )
     return true;
 }
 
+int PlayLayer::exec2()
+{
+    auto oldTick = SDL_GetTicks();
+    for ( auto done = false ; !done; )
+    {
+        SDL_RenderClear(renderer);
+        drawMatrix2();
+        int temp = score;
+        SDL_Event e;
+        if ( SDL_PollEvent(&e) )
+        {
+            switch (e.type)
+            {
+            case SDL_MOUSEBUTTONUP:
+            {
+                Mix_Chunk* gClick ;
+                gClick = Mix_LoadWAV("sound/mouse_click.wav");
+                if (gClick == nullptr)
+                {
+                    LogError("Failed to load mouse click sound", MIX_ERROR);
+                }
+                Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
 
-int PlayLayer::exec( int i )
+                auto x = (e.button.x-430) / (Esize);
+                auto y = (e.button.y-50) / (Esize);
+                if (selectedX >= 0 && selectedY >= 0 &&
+                        ((abs(x - selectedX) == 1 && y == selectedY) || (abs(y - selectedY) == 1 && x == selectedX))&&matrix[selectedX][selectedY] >=0)
+                {
+                    std::swap(matrix[x][y], matrix[selectedX][selectedY]);
+                    bee2(matrix, x, y, selectedX,selectedY);
+                    beeplain(matrix,x,y,selectedX,selectedY);
+                    stripes2(matrix,x,y,selectedX,selectedY);
+                    bee(matrix,x,y);
+                    bee(matrix,selectedX,selectedY);
+                    stripes(matrix,selectedX,selectedY);
+                    stripes(matrix,x,y);
+                    plain(matrix,x,y);
+                    plain(matrix,selectedX,selectedY);
+                    //draw();
+                    SDL_Delay(200);
+                    moves--;
+                    int m1 = move1;
+                    int m2 = move2;
+                    move1 = moves/2;
+                    move2 = (moves+1)/2;
+                    if ( score == temp )
+                    {
+                        Mix_Chunk* gMusic = nullptr;
+                        gMusic = Mix_LoadWAV("sound/fail.ogg");
+
+                        if (gMusic == nullptr)
+                        {
+                            LogError("Failed to load background music", MIX_ERROR);
+                        }
+                        Mix_PlayChannel(MIX_CHANNEL,gMusic, NOT_REPEATITIVE);
+                        std::swap (matrix[x][y],matrix[selectedX][selectedY]);
+                        moves++;
+                        move1 = moves/2;
+                        move2 = (moves+1)/2;
+                    }
+                    else
+                    {
+                        selectedX = -1;
+                        selectedY = -1;
+
+                    }
+                    if ( m1 != move1 ) score1 = score-temp;
+                    else score2 = score-temp;
+                }
+                else
+                {
+                    selectedX = (e.button.x-430) / (Esize);
+                    selectedY = (e.button.y-50) / (Esize);
+                }
+            }
+            break;
+            case SDL_QUIT:
+                done = true;
+                break;
+            }
+        }
+
+        auto currentTick = SDL_GetTicks();
+        for (auto t = oldTick; t < currentTick; ++t)
+            if (!tick())
+                return 1;
+        oldTick = currentTick;
+        draw();
+        drawScoreAndMove2();
+        if ( score != temp )
+        {
+            Mix_Chunk* gMusic = nullptr;
+            gMusic = Mix_LoadWAV("sound/break.ogg");
+
+            if (gMusic == nullptr)
+            {
+                LogError("Failed to load break music", MIX_ERROR);
+            }
+            Mix_PlayChannel(MIX_CHANNEL,gMusic, NOT_REPEATITIVE);
+
+            BaseObject gEffectTexture;
+            if (!gEffectTexture.LoadImg("img/Other/3.png", renderer))
+            {
+                std::cout << "Failed to load effect image" << std::endl;
+            }
+
+            for (int index = 0; index < 10; ++index)
+            {
+                gEffectTexture.Render(1050,300,renderer,&effect[index]); // Lặp lại hiệu ứng 10 lần
+                SDL_Delay(50); // Thời gian trễ giữa các lần lặp
+                SDL_RenderPresent(renderer); // Cập nhật màn hình
+            }
+            gEffectTexture.destroy();
+        }
+//        if ( moves < 18 )
+//        {
+//            draw();
+//        }
+//        else
+//        {
+//            if ( score <= target )
+//
+//            {
+//                BaseObject fn;
+//                if (!fn.LoadImg("bg.png",renderer))
+//                {
+//                    std::cout << "Failed to load end image" << std::endl;
+//                }
+//                SDL_Rect fn1{0,0,1760,990};
+//                fn.Render(0,0,renderer,&fn1);
+//
+//            }
+//        }
+        SDL_RenderPresent(renderer);
+    }
+    return 0;
+}
+
+int PlayLayer::exec()
 {
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
@@ -96,13 +249,13 @@ int PlayLayer::exec( int i )
                     if ( score == temp )
                     {
                         Mix_Chunk* gMusic = nullptr;
-            gMusic = Mix_LoadWAV("sound/fail.ogg");
+                        gMusic = Mix_LoadWAV("sound/fail.ogg");
 
-            if (gMusic == nullptr)
-            {
-                LogError("Failed to load background music", MIX_ERROR);
-            }
-            Mix_PlayChannel(MIX_CHANNEL,gMusic, NOT_REPEATITIVE);
+                        if (gMusic == nullptr)
+                        {
+                            LogError("Failed to load background music", MIX_ERROR);
+                        }
+                        Mix_PlayChannel(MIX_CHANNEL,gMusic, NOT_REPEATITIVE);
                         std::swap (matrix[x][y],matrix[selectedX][selectedY]);
                         moves++;
                     }
@@ -132,6 +285,7 @@ int PlayLayer::exec( int i )
                 return 1;
         oldTick = currentTick;
         draw();
+        drawScoreAndMove();
         if ( score != temp )
         {
             Mix_Chunk* gMusic = nullptr;
@@ -265,30 +419,100 @@ void PlayLayer::draw()
             }
         }
     ss.free();
-    TTF_Font *font = NULL;
-    font = TTF_OpenFont("font/Cute Dino.ttf",64);
-    BaseObject text;
-    string t = std::to_string(score)  ;
-    SDL_Color textColor = {206, 126, 0};
-    text.LoadFromRenderedText(t,font,textColor,renderer);
-    SDL_Rect ss2 = {0,0,150,150};
-    text.Render(150, 650,renderer,&ss2);
-    BaseObject Move;
-    string s = std::to_string(moves);
-    Move.LoadFromRenderedText(s,font,textColor,renderer);
-    Move.Render(150,370,renderer,&ss2);
-    text.Free();
-    Move.Free();
-    text.destroy();
-    Move.destroy();
+//    text.destroy();
+    // Move.destroy();
 }
 
+void PlayLayer::drawScoreAndMove()
+{
+    TTF_Font *font = NULL;
+    font = TTF_OpenFont("font/Lobster-Regular.ttf",100);
+    Texture text;
+    string t1 = std::to_string(score)  ;
+    SDL_Color textColor = {255, 255, 255};
+    text.loadFromRenderedText(t1,textColor,font);
+    SDL_Rect ss2 = {0,0,20,20};
+    text.render(150, 650,20,20,NULL);
+    Texture point[6];
+    string t[6]=
+    {
+        std::to_string(targetch),
+        std::to_string(targeth),
+        std::to_string(targetl),
+        std::to_string(targetc),
+        std::to_string(targetn),
+        std::to_string(targetd),
+    };
+    for (int i = 0 ; i < 6 ; i++ )
+    {
+        point[i].loadFromRenderedText(t[i],textColor,font);
+        point[i].render(100*i, 100, 20,20,NULL);
+        point[i].free();
+    }
+    Texture Move;
+    string s = std::to_string(moves);
+    Move.loadFromRenderedText(s,textColor,font);
+    Move.render(150,370,20,20,NULL);
+    text.free();
+    Move.free();
+}
+
+void PlayLayer::drawScoreAndMove2()
+{
+    TTF_Font *font = NULL;
+    font = TTF_OpenFont("font/Lobster-Regular.ttf",100);
+    Texture text1,text2;
+    string t1 = std::to_string(score1)  ;
+    string t2 = std::to_string(score2)  ;
+    SDL_Color textColor = {255, 255, 255};
+    text1.loadFromRenderedText(t1,textColor,font);
+    text2.loadFromRenderedText(t2,textColor,font);
+    text1.render(150, 650,20,20,NULL);
+    text2.render(650, 650,20,20,NULL);
+    Texture Move1,Move2;
+    string s1 = std::to_string(move1);
+    string s2 = std::to_string(move2);
+    Move1.loadFromRenderedText(s1,textColor,font);
+    Move1.render(150,370,20,20,NULL);
+    Move2.loadFromRenderedText(s2,textColor,font);
+    Move2.render(450,370,20,20,NULL);
+    text1.free();
+    text2.free();
+    Move1.free();
+    Move2.free();
+}
 void PlayLayer::drawMatrix()
 {
     BaseObject bg;
     SDL_Rect bg_rect;
     bg_rect= {0,0,1600,900};
-    bg.LoadImg("img/background/bg2.png",renderer);
+    bg.LoadImg("img/background/bg.png",renderer);
+    bg.Render(0,0,renderer,&bg_rect);
+    BaseObject ss;
+    SDL_Rect ss1= {0,0,Esize,Esize};
+    for (int x = 0; x < MATRIX_WIDTH; ++x)
+        for (int y = 0; y < MATRIX_HEIGHT; ++y)
+        {
+            if ( (x+y) %2 == 0)
+                ss.LoadImg("img/Other/tile64_dark.png",renderer);
+            else
+                ss.LoadImg("img/Other/tile64_light.png",renderer);
+            if (square[x][y] >=0)
+            {
+                ss.Render((Esize)*(x)+430,(Esize)*(y)+50,renderer,&ss1);
+            }
+        }
+    ss.Free();
+    ss.destroy();
+    bg.destroy();
+}
+
+void PlayLayer::drawMatrix2()
+{
+    BaseObject bg;
+    SDL_Rect bg_rect;
+    bg_rect= {0,0,1600,900};
+    bg.LoadImg("img/background/bg2player.png",renderer);
     bg.Render(0,0,renderer,&bg_rect);
     BaseObject ss;
     SDL_Rect ss1= {0,0,Esize,Esize};
