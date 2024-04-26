@@ -14,15 +14,15 @@ class PlayLayer
 public:
     PlayLayer(SDL_Renderer* renderer);
     ~PlayLayer();
-    bool exec();
-    bool exec2();
+    int exec();
+    int exec2();
     bool tick();
     void draw();
     int Moves;
     int check = 0;
     void draw2();
     bool init(int i);
-    bool initMatrix();
+    bool initMatrix( int i);
     //void update();
     //void render();
     static SDL_Renderer* renderer;
@@ -36,8 +36,8 @@ private:
     int selectedY = -1;
     int width;
     int height;
-    int score1 = 0, move1 = 12;
-    int score2 = 0, move2 = 12;
+    int score1 = 0;
+    int score2 = 0;
     float matrixLeftBottomX;
     float matrixLeftBottomY;
     unsigned ticks = 0;

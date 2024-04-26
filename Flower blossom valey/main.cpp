@@ -166,14 +166,12 @@ int main(int argc, char* argv[])
 
     if (InitData() == false)
         return -1;
-    else if (LoadMedia() == false)
+    if (LoadMedia() == false)
         return -1;
-        else {
     bool Quit_Menu = false;
-    //  bool Play_Again = false;
     bool Quit_Play = false;
     int PlayLevel = 0;
-            bool Quit_Game = false;
+    bool Quit_Game = false;
     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
     while (!Quit_Menu)
     {
@@ -186,7 +184,6 @@ int main(int argc, char* argv[])
                 Quit_Menu = true;
             }
 
-            //   HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
             HandlePlayButton(&e_mouse, gBackButton,gLevel1Button, gLevel2Button, gLevel3Button, gLevel4Button,
                              PlayButton, BackButton, Level1Button, Level2Button, Level3Button, Level4Button,
                              gBackButtonTexture, gLevel1ButtonTexture, gLevel2ButtonTexture, gLevel3ButtonTexture, gLevel4ButtonTexture,
@@ -224,7 +221,7 @@ int main(int argc, char* argv[])
 
         SDL_RenderPresent(g_screen);
     }
-    while(PlayLevel != 0 && PlayLevel < 4)
+    while(PlayLevel > 0 && PlayLevel < 4)
     {
         srand(time(NULL));
         bool is_quit = false;
@@ -242,26 +239,13 @@ int main(int argc, char* argv[])
                     }
 
                 }
-
-//                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
                 SDL_RenderClear(g_screen);
-//
-//                g_background.Render(0,0,g_screen, NULL);
-
                 PlayLayer playLayer(g_screen);
                 if (!playLayer.init(PlayLevel))
                 {
                     printf("Failed to initialize PlayLayer.\n");
                 }
-
-                if(playLayer.exec()== 0)
-                    SDL_RenderPresent(g_screen);
-                else
-                {
-                    PlayLevel = 0;
-                    //Quit_Menu = 0;
-                    //Quit_Game = 0;
-                }
+                playLayer.exec();
             }
         }
     }
@@ -286,37 +270,15 @@ int main(int argc, char* argv[])
 
                 SDL_RenderClear(g_screen);
                 PlayLayer playLayer(g_screen);
-                if (!playLayer.initMatrix())
+                if (!playLayer.initMatrix(PlayLevel))
                 {
                     printf("Failed to initialize PlayLayer.\n");
                 }
-
-                if (playLayer.exec2() == 0  )
-                {
-                     BaseObject h;
-                    h.LoadImg("img/background/23.png",g_screen);
-                    SDL_Rect h1 = {0,0,1600,900};
-                    h.Render(0,0,g_screen,&h1);
-                    SDL_RenderPresent(g_screen);  }
-
-                SDL_RenderPresent(g_screen);
-
-                if( playLayer.Moves == 0 )
-                {
-                    PlayLevel = 0;
-                    Quit_Menu = 0;
-
-
-                }
+                playLayer.exec2();
             }
         }
     }
 
-      BaseObject h;
-                    h.LoadImg("img/background/23.png",g_screen);
-                    SDL_Rect h1 = {0,0,1600,900};
-                    h.Render(0,0,g_screen,&h1);
-                    SDL_RenderPresent(g_screen);  }
     close();
     return 0;
 }

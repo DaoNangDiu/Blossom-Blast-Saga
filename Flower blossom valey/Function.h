@@ -5,7 +5,7 @@ int MATRIX_WIDTH;
 int MATRIX_HEIGHT;
 using namespace std;
 
-int moves  ;
+int moves, move1 = 12, move2=12  ;
 int score;
 int level, targeth,  targetc, targetl, targetn, targetd, targetch;
 ifstream f;

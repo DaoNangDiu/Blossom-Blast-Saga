@@ -38,7 +38,7 @@ void PlayLayer::createMatrix(int width, int height)
         square[i] = new int[height];
 }
 
-bool PlayLayer::initMatrix ()
+bool PlayLayer::initMatrix ( int k )
 {
     moves = 24;
     MATRIX_WIDTH = 8;
@@ -67,7 +67,7 @@ bool PlayLayer::init( int k )
     return true;
 }
 
-bool PlayLayer::exec2()
+int PlayLayer::exec2()
 {
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
@@ -185,12 +185,35 @@ bool PlayLayer::exec2()
             gEffectTexture.destroy();
         }
         SDL_RenderPresent(renderer);
-        if ( moves == 0 ) return 0;
+    if (moves == 0 )
+    {
+        Texture last;
+        if ( check == 0 )
+        {
+            last.loadFromFile("img/background/hoa.png");
+            last.render(0,0,1600,900,NULL);
+            SDL_RenderPresent(renderer);
+        }
+        else if ( check == 1 )
+        {
+            last.loadFromFile("img/background/23.png");
+            last.render(0,0,1600,900,NULL);
+            SDL_RenderPresent(renderer);
+        }
+        else
+        {
+            last.loadFromFile("img/background/24.png");
+            last.render(0,0,1600,900,NULL);
+            SDL_RenderPresent(renderer);
+        }
+        SDL_Delay(20000);
+        return 0;
+    }
     }
     return 1;
 }
 
-bool PlayLayer::exec()
+int PlayLayer::exec()
 {
     auto oldTick = SDL_GetTicks();
     for ( auto done = false ; !done; )
@@ -271,6 +294,7 @@ bool PlayLayer::exec()
         draw();
         drawScoreAndMove();
         if ( targetc == 0 && targetch == 0 && targetd == 0 && targeth == 0 && targetl == 0 && targetn == 0 ) check = 1;
+        else check =0;
         if ( score != temp )
         {
             Mix_Chunk* gMusic = nullptr;
@@ -297,8 +321,24 @@ bool PlayLayer::exec()
             gEffectTexture.destroy();
         }
         SDL_RenderPresent(renderer);
-        if (moves == 0 ) return 0;
+        if (moves == 0 )
+        {
+            Texture last;
+            if ( check == 1 )
+            {
+                last.loadFromFile("img/background/21.png");
+                last.render(0,0,1600,900,NULL);
+                SDL_RenderPresent(renderer);
+            }
+            else
+            {
+                last.loadFromFile("img/background/22.png");
+                last.render(0,0,1600,900,NULL);
+                SDL_RenderPresent(renderer);
+            }
+            return 0;
 
+        }
     }
     return 1;
 }
